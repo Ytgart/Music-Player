@@ -4,4 +4,9 @@
     <string name="email_text_field">E-Mail</string>
     <string name="password_text_field">Пароль</string>
     <string name="repeat_password_text_field">Повторите пароль</string>
+    <string name="registerCheckBox">Согласен с условиями пользования</string>
+    <string name="registerButton">Зарегистрироваться</string>
+    <string name="changeModeButton1">Войти в аккаунт</string>
+    <string name="changeModeButton2">Создать аккаунт</string>
+    <string name="loginButton">Войти</string>
 </resources>

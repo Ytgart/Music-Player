@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
 
             when (userDataValidator.validate(newUserData, typedTexts[3])) {
                 0 -> {
-                    if (binding.checkBox.isChecked) {
+                    if (binding.registerCheckBox.isChecked) {
                         loginManager.registerUser(newUserData)
                         val playerIntent = Intent(baseContext, PlayerActivity::class.java)
                         startActivity(playerIntent)
