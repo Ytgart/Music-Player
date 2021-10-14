@@ -10,4 +10,9 @@
     <string name="changeModeButton2">Создать аккаунт</string>
     <string name="loginButton">Войти</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="incorrect_login_or_password_alert">Неверный логин или пароль</string>
+    <string name="terms_of_use_alert">Вы не приняли условия пользования</string>
+    <string name="passwords_not_match_alert">Пароли не совпадают</string>
+    <string name="incorrect_email_alert">Некорректный E-Mail</string>
+    <string name="incorrect_login_alert">Некорректный логин</string>
 </resources>

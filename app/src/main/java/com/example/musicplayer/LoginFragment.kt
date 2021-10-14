@@ -59,7 +59,10 @@ class LoginFragment : Fragment() {
                 loginManager.loginUser()
                 this.findNavController()
                     .navigate(R.id.action_loginFragment_to_playerFragment)
-            } else DialogueWindowManager.showAlert("Неверный логин или пароль", requireContext())
+            } else DialogueWindowManager.showAlert(
+                getString(R.string.incorrect_login_or_password_alert),
+                requireContext()
+            )
         }
 
         binding.newAccountButton.setOnClickListener {

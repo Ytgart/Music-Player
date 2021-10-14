@@ -69,13 +69,22 @@ class RegisterFragment : Fragment() {
                         this.findNavController()
                             .navigate(R.id.action_registerFragment_to_playerFragment)
                     } else DialogueWindowManager.showAlert(
-                        "Вы не приняли условия пользования",
+                        getString(R.string.terms_of_use_alert),
                         requireActivity()
                     )
                 }
-                1 -> DialogueWindowManager.showAlert("Пароли не совпадают", requireActivity())
-                2 -> DialogueWindowManager.showAlert("Некорректный E-Mail", requireActivity())
-                3 -> DialogueWindowManager.showAlert("Некорректный логин", requireActivity())
+                1 -> DialogueWindowManager.showAlert(
+                    getString(R.string.passwords_not_match_alert),
+                    requireActivity()
+                )
+                2 -> DialogueWindowManager.showAlert(
+                    getString(R.string.incorrect_email_alert),
+                    requireActivity()
+                )
+                3 -> DialogueWindowManager.showAlert(
+                    getString(R.string.incorrect_login_alert),
+                    requireActivity()
+                )
             }
         }
 
