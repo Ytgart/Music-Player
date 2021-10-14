@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musicplayer.databinding.LoginInputFieldBinding
 
 class EditTextListAdapter(
     private val hints: Array<String>,
@@ -17,11 +18,12 @@ class EditTextListAdapter(
 
     private val typedTexts = Array(hints.size) { _ -> "" }
 
-    inner class InputFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class InputFieldViewHolder(private val binding: LoginInputFieldBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         var inputFieldObject: EditText? = null
 
         init {
-            inputFieldObject = itemView.findViewById(R.id.list_input_field)
+            inputFieldObject = binding.listInputField
 
             inputFieldObject?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -40,9 +42,13 @@ class EditTextListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InputFieldViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.login_input_field, parent, false)
-        return InputFieldViewHolder(itemView)
+        return InputFieldViewHolder(
+            LoginInputFieldBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: InputFieldViewHolder, position: Int) {
