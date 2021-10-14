@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".LoginFragment">
 
     <ImageView
         android:id="@+id/icon"
@@ -20,26 +20,14 @@
         android:layout_marginTop="20dp"
         android:layout_below="@id/icon"/>
 
-    <CheckBox
-        android:id="@+id/registerCheckBox"
+    <Button
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/inputFieldList"
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="30dp"
-        android:text="@string/registerCheckBox"
-        android:textAlignment="center"
-        android:visibility="visible"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/registerCheckBox"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/registerButton"
+        android:text="@string/loginButton"
         android:textColor="@color/black"
         tools:ignore="MissingConstraints" />
 
@@ -51,7 +39,7 @@
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
-        android:text="@string/changeModeButton1"
+        android:text="@string/changeModeButton2"
         android:textColor="@color/white"
         tools:ignore="MissingConstraints" />
 </RelativeLayout>

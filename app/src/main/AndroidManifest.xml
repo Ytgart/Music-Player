@@ -10,13 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicPlayer">
         <activity
-            android:name=".LoginActivity"
-            android:exported="true" />
-        <activity
-            android:name=".PlayerActivity"
-            android:exported="true" />
-        <activity
-            android:name=".RegisterActivity"
+            android:name=".MainActivity"
             android:exported="true" />
     </application>
 
