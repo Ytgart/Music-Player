@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.databinding.FragmentRegisterBinding
@@ -25,6 +27,14 @@ class RegisterFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    DialogueWindowManager.showExitDialogue(requireContext())
+                }
+            })
     }
 
     override fun onCreateView(
@@ -64,14 +74,9 @@ class RegisterFragment : Fragment() {
 
             when (userDataValidator.validate(newUserData, typedTexts[3])) {
                 0 -> {
-                    if (binding.registerCheckBox.isChecked) {
-                        loginManager.registerUser(newUserData)
-                        this.findNavController()
-                            .navigate(R.id.action_registerFragment_to_playerFragment)
-                    } else DialogueWindowManager.showAlert(
-                        getString(R.string.terms_of_use_alert),
-                        requireActivity()
-                    )
+                    loginManager.registerUser(newUserData)
+                    this.findNavController()
+                        .navigate(R.id.action_registerFragment_to_playerFragment)
                 }
                 1 -> DialogueWindowManager.showAlert(
                     getString(R.string.passwords_not_match_alert),
