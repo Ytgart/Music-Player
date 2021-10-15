@@ -14,11 +14,11 @@ object DialogueWindowManager {
 
     fun showExitDialogue(context: Context) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Выйти из приложения?")
-        builder.setPositiveButton("Да") {
+        builder.setTitle(context.getString(R.string.quit_alert_title))
+        builder.setPositiveButton(context.getString(R.string.alert_yes_option)) {
             _, _ -> exitProcess(1)
         }
-        builder.setNegativeButton("Нет") {
+        builder.setNegativeButton(context.getString(R.string.alert_no_option)) {
             _, _ ->
         }
         builder.create()
