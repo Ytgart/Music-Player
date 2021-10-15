@@ -36,8 +36,12 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loginManager = LoginManager(requireContext())
+
+        if (loginManager.isLogged()) {
+            this.findNavController()
+                .navigate(R.id.action_registerFragment_to_playerFragment)
+        }
 
         val recyclerView = binding.inputFieldList
         recyclerView.layoutManager = LinearLayoutManager(activity)
