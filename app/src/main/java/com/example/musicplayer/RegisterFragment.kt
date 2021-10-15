@@ -52,7 +52,7 @@ class RegisterFragment : Fragment() {
                 getString(R.string.email_text_field),
                 getString(R.string.password_text_field),
                 getString(R.string.repeat_password_text_field)
-            ), arrayOf(1, 1 or 32, 1 or 128, 1 or 128)
+            ), arrayOf(1, 1 or 32, 1 or 128, 1 or 128), arrayOf(false, false, true, true)
         )
 
         val rvAdapter = recyclerView.adapter as EditTextListAdapter
@@ -90,6 +90,10 @@ class RegisterFragment : Fragment() {
 
         binding.newAccountButton.setOnClickListener {
             this.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+
+        binding.registerCheckBox.setOnClickListener {
+            binding.loginButton.isEnabled = binding.registerCheckBox.isChecked
         }
     }
 

@@ -17,8 +17,8 @@
         android:id="@+id/inputFieldList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/icon"/>
+        android:layout_below="@id/icon"
+        android:layout_marginTop="20dp" />
 
     <CheckBox
         android:id="@+id/registerCheckBox"
@@ -39,6 +39,7 @@
         android:layout_below="@id/registerCheckBox"
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="30dp"
+        android:enabled="false"
         android:text="@string/registerButton"
         android:textColor="@color/black"
         tools:ignore="MissingConstraints" />

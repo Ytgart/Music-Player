@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
             arrayOf(
                 getString(R.string.login_text_field),
                 getString(R.string.password_text_field)
-            ), arrayOf(1, 1 or 128)
+            ), arrayOf(1, 1 or 128), arrayOf(false, true)
         )
 
         val rvAdapter = recyclerView.adapter as EditTextListAdapter
