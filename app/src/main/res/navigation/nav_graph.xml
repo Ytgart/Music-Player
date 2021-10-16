@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/registerFragment">
+    app:startDestination="@id/playerFragment">
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.musicplayer.RegisterFragment"
@@ -28,8 +28,8 @@
         android:label="fragment_player"
         tools:layout="@layout/fragment_player" >
         <action
-            android:id="@+id/action_playerFragment_to_registerFragment"
-            app:destination="@id/registerFragment"
+            android:id="@+id/action_playerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>

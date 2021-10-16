@@ -27,14 +27,7 @@ class RegisterFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    DialogueWindowManager.showExitDialogue(requireContext())
-                }
-            })
+        loginManager = LoginManager(requireActivity())
     }
 
     override fun onCreateView(
@@ -47,12 +40,6 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginManager = LoginManager(requireActivity())
-
-        if (loginManager.isLogged()) {
-            this.findNavController()
-                .navigate(R.id.action_registerFragment_to_playerFragment)
-        }
 
         val recyclerView = binding.inputFieldList
         recyclerView.layoutManager = LinearLayoutManager(activity)

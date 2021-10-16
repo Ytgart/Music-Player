@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.databinding.FragmentLoginBinding
@@ -24,6 +25,15 @@ class LoginFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        loginManager = LoginManager(requireContext())
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    DialogueWindowManager.showExitDialogue(requireContext())
+                }
+            })
     }
 
     override fun onCreateView(
@@ -36,12 +46,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginManager = LoginManager(requireContext())
-
-        if (loginManager.isLogged()) {
-            this.findNavController()
-                .navigate(R.id.action_registerFragment_to_playerFragment)
-        }
 
         val recyclerView = binding.inputFieldList
         recyclerView.layoutManager = LinearLayoutManager(activity)

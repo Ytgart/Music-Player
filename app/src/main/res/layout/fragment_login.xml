@@ -29,7 +29,6 @@
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="30dp"
         android:text="@string/loginButton"
-        android:textColor="@color/black"
         tools:ignore="MissingConstraints" />
 
     <Button

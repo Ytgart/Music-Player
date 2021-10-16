@@ -48,7 +48,7 @@ class PlayerFragment : Fragment() {
 
         binding.exitButton.setOnClickListener {
             loginManager.unloginUser()
-            this.findNavController().navigate(R.id.action_playerFragment_to_registerFragment)
+            this.findNavController().navigate(R.id.action_playerFragment_to_loginFragment)
         }
     }
 
