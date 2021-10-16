@@ -1,14 +1,13 @@
 package com.example.musicplayer
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.musicplayer.database.PlayerUser
 import com.example.musicplayer.databinding.FragmentRegisterBinding
 
 private const val ARG_PARAM1 = "param1"
@@ -56,14 +55,22 @@ class RegisterFragment : Fragment() {
 
         binding.loginButton.setOnClickListener {
             val typedTexts = rvAdapter.getTypedTexts()
-            val newUserData =
-                LoginManager.UserData(typedTexts[0], typedTexts[1], typedTexts[2])
+            val newUserData = PlayerUser(typedTexts[0], typedTexts[1], typedTexts[2])
+            val playerUserDao = (activity as MainActivity).getPlayerUserDao()
 
             when (userDataValidator.validate(newUserData, typedTexts[3])) {
                 0 -> {
-                    loginManager.registerUser(newUserData)
-                    this.findNavController()
-                        .navigate(R.id.action_registerFragment_to_playerFragment)
+                    if (playerUserDao.getUserByLogin(newUserData.login) == null) {
+                        playerUserDao.insert(newUserData)
+                        loginManager.loginUser()
+                        this.findNavController()
+                            .navigate(R.id.action_registerFragment_to_playerFragment)
+                    } else {
+                        DialogueWindowManager.showAlert(
+                            getString(R.string.login_already_exists),
+                            requireActivity()
+                        )
+                    }
                 }
                 1 -> DialogueWindowManager.showAlert(
                     getString(R.string.passwords_not_match_alert),

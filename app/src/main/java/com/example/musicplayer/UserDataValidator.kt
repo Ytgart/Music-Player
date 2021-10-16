@@ -1,11 +1,11 @@
 package com.example.musicplayer
 
 import android.text.TextUtils
-import com.example.musicplayer.LoginManager.*
+import com.example.musicplayer.database.PlayerUser
 
 class UserDataValidator {
 
-    fun validate(data: UserData, repeatedPassword: String): Int {
+    fun validate(data: PlayerUser, repeatedPassword: String): Int {
         if (!validateLogin(data.login)) return 3
         if (!validateEmail(data.email)) return 2
         if (!validatePassword(data.password, repeatedPassword)) return 1

@@ -1,22 +1,11 @@
 package com.example.musicplayer
 
 import android.content.Context
-import java.io.Serializable
+import com.example.musicplayer.database.PlayerUser
 
 class LoginManager(context: Context) {
 
-    data class UserData(
-        var login: String,
-        var email: String,
-        var password: String
-    ) : Serializable
-
     private val userDataManager = UserDataManager(context)
-
-    fun registerUser(data: UserData) {
-        userDataManager.saveData(data)
-        userDataManager.saveLoginState(true)
-    }
 
     fun loginUser() {
         userDataManager.saveLoginState(true)
@@ -26,9 +15,9 @@ class LoginManager(context: Context) {
         userDataManager.saveLoginState(false)
     }
 
-    fun checkLoginData(login: String, password: String): Boolean {
-        val tempUserData = userDataManager.loadData()
-        return (login == tempUserData.login && password == tempUserData.password)
+    fun checkLoginData(login: String, password: String, userData: PlayerUser?): Boolean {
+        return if (userData != null) (login == userData.login && password == userData.password)
+        else false
     }
 
     fun isLogged() = userDataManager.loadLoginState()

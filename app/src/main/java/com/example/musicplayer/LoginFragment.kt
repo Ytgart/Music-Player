@@ -59,9 +59,14 @@ class LoginFragment : Fragment() {
         val rvAdapter = recyclerView.adapter as EditTextListAdapter
 
         binding.loginButton.setOnClickListener {
+
+            val userDataFromDB = (activity as MainActivity).getPlayerUserDao()
+                .getUserByLogin(rvAdapter.getTypedTexts()[0])
+
             if (loginManager.checkLoginData(
                     rvAdapter.getTypedTexts()[0],
-                    rvAdapter.getTypedTexts()[1]
+                    rvAdapter.getTypedTexts()[1],
+                    userDataFromDB
                 )
             ) {
                 loginManager.loginUser()
