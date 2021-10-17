@@ -6,18 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".presentation.LoginFragment">
 
-    <ImageView
-        android:id="@+id/icon"
+    <TextView
+        android:id="@+id/topText"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/logo_final" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="230dp"
+        android:text="@string/changeModeButton1"
+        android:textSize="36sp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/inputFieldList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/icon"
+        android:layout_below="@id/topText"
         android:layout_marginTop="20dp"
         android:overScrollMode="never" />
 
