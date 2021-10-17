@@ -1,9 +1,8 @@
-package com.example.musicplayer.database
+package com.example.musicplayer.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.musicplayer.database.PlayerUser
 
 @Dao
 interface PlayerUserDao {

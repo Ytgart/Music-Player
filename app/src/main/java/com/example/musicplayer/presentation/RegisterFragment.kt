@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.musicplayer.database.PlayerUser
+import com.example.musicplayer.data.database.PlayerUser
 import com.example.musicplayer.*
 import com.example.musicplayer.databinding.FragmentRegisterBinding
 

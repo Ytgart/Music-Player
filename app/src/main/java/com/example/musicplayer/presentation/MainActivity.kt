@@ -6,8 +6,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.room.Room
 import com.example.musicplayer.LoginManager
 import com.example.musicplayer.R
-import com.example.musicplayer.database.PlayerDatabase
-import com.example.musicplayer.database.PlayerUserDao
+import com.example.musicplayer.data.database.PlayerDatabase
+import com.example.musicplayer.data.database.PlayerUserDao
 import com.example.musicplayer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

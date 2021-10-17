@@ -1,7 +1,7 @@
 package com.example.musicplayer
 
 import android.text.TextUtils
-import com.example.musicplayer.database.PlayerUser
+import com.example.musicplayer.data.database.PlayerUser
 
 class UserDataValidator {
 

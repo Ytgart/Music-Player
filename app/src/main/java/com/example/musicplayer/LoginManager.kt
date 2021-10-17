@@ -1,7 +1,7 @@
 package com.example.musicplayer
 
 import android.content.Context
-import com.example.musicplayer.database.PlayerUser
+import com.example.musicplayer.data.database.PlayerUser
 
 class LoginManager(context: Context) {
     private val sharedPref = context.getSharedPreferences("LOGIN_DATA1", Context.MODE_PRIVATE)
