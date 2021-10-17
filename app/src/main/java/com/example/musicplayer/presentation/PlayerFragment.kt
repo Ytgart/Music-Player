@@ -1,4 +1,4 @@
-package com.example.musicplayer
+package com.example.musicplayer.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,23 +7,16 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.musicplayer.*
 import com.example.musicplayer.databinding.FragmentPlayerBinding
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class PlayerFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var loginManager: LoginManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        loginManager = LoginManager(requireContext())
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -44,22 +37,11 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginManager = LoginManager(requireContext())
+
 
         binding.exitButton.setOnClickListener {
-            loginManager.unloginUser()
+            loginManager.saveLoginState(false)
             this.findNavController().navigate(R.id.action_playerFragment_to_loginFragment)
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PlayerFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

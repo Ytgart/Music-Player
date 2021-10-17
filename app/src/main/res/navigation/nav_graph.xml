@@ -6,9 +6,9 @@
     app:startDestination="@id/playerFragment">
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.musicplayer.RegisterFragment"
+        android:name="com.example.musicplayer.presentation.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -24,9 +24,9 @@
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
-        android:name="com.example.musicplayer.PlayerFragment"
+        android:name="com.example.musicplayer.presentation.PlayerFragment"
         android:label="fragment_player"
-        tools:layout="@layout/fragment_player" >
+        tools:layout="@layout/fragment_player">
         <action
             android:id="@+id/action_playerFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -35,9 +35,9 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.musicplayer.LoginFragment"
+        android:name="com.example.musicplayer.presentation.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment"
