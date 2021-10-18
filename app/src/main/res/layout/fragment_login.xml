@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="210dp"
+        android:fontFamily="sans-serif-black"
         android:text="@string/changeModeButton1"
-        android:textSize="36sp"
-        android:textColor="@color/white"
         android:textAlignment="center"
-        android:fontFamily="sans-serif-black"/>
+        android:textColor="@color/mtrl_btn_text_color_selector2"
+        android:textSize="36sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/inputFieldList"
@@ -34,6 +34,7 @@
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="50dp"
         android:text="@string/loginButton"
+        android:textColor="@color/black"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -45,6 +46,6 @@
         android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:text="@string/changeModeButton2"
-        android:textColor="@color/white"
+        android:textColor="@color/mtrl_btn_text_color_selector2"
         tools:ignore="MissingConstraints" />
 </RelativeLayout>
