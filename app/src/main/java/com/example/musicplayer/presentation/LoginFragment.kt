@@ -13,11 +13,9 @@ import com.example.musicplayer.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var loginManager: LoginManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loginManager = LoginManager(requireContext())
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -38,8 +36,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val loginManager = (activity as MainActivity).loginManager
         val recyclerView = binding.inputFieldList
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = EditTextListAdapter(
             arrayOf(
@@ -51,8 +50,7 @@ class LoginFragment : Fragment() {
         val rvAdapter = recyclerView.adapter as EditTextListAdapter
 
         binding.loginButton.setOnClickListener {
-
-            val userDataFromDB = (activity as MainActivity).getPlayerUserDao()
+            val userDataFromDB = (activity as MainActivity).playerUserDao
                 .getUserByLogin(rvAdapter.getTypedTexts()[0])
 
             if (loginManager.checkLoginData(

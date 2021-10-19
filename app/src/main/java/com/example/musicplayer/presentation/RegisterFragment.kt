@@ -13,13 +13,7 @@ import com.example.musicplayer.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
-    private lateinit var loginManager: LoginManager
     private val userDataValidator = UserDataValidator()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loginManager = LoginManager(requireActivity())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +25,10 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val playerUserDao = (activity as MainActivity).playerUserDao
+        val loginManager = (activity as MainActivity).loginManager
         val recyclerView = binding.inputFieldList
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = EditTextListAdapter(
             arrayOf(
@@ -48,7 +44,6 @@ class RegisterFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val typedTexts = rvAdapter.getTypedTexts()
             val newUserData = PlayerUser(typedTexts[0], typedTexts[1], typedTexts[2])
-            val playerUserDao = (activity as MainActivity).getPlayerUserDao()
 
             when (userDataValidator.validate(newUserData, typedTexts[3])) {
                 0 -> {

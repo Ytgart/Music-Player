@@ -12,11 +12,9 @@ import com.example.musicplayer.databinding.FragmentPlayerBinding
 
 class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
-    private lateinit var loginManager: LoginManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loginManager = LoginManager(requireContext())
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -37,7 +35,7 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val loginManager = (activity as MainActivity).loginManager
 
         binding.exitButton.setOnClickListener {
             loginManager.saveLoginState(false)

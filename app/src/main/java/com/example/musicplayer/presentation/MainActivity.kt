@@ -12,8 +12,10 @@ import com.example.musicplayer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var loginManager: LoginManager
-    private lateinit var playerUserDao: PlayerUserDao
+    lateinit var loginManager: LoginManager
+        private set
+    lateinit var playerUserDao: PlayerUserDao
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getPlayerUserDao(): PlayerUserDao {
-        return playerUserDao
-    }
+    //fun getPlayerUserDao() = playerUserDao
 }
