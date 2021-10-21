@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="presentation.RegisterFragment">
+
+    <TextView
+        android:id="@+id/topText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/changeModeButton2"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_selector"
+        android:textSize="36sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inputFieldList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topText"
+        android:layout_marginTop="20dp"
+        android:overScrollMode="never" />
+
+    <CheckBox
+        android:id="@+id/registerCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputFieldList"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/registerCheckBox"
+        android:textAlignment="center"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/registerCheckBox"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="30dp"
+        android:enabled="false"
+        android:text="@string/registerButton"
+        android:textColor="@color/button_text_color_selector"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/newAccountButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginButton"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/transparent"
+        android:text="@string/changeModeButton1"
+        android:textColor="@color/text_color_selector"
+        tools:ignore="MissingConstraints" />
+</RelativeLayout>

@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Music Player</string>
+    <string name="login_text_field">Логин</string>
+    <string name="email_text_field">E-Mail</string>
+    <string name="password_text_field">Пароль</string>
+    <string name="repeat_password_text_field">Повторите пароль</string>
+    <string name="registerCheckBox">Согласен с условиями пользования</string>
+    <string name="registerButton">Зарегистрироваться</string>
+    <string name="changeModeButton1">Войти в аккаунт</string>
+    <string name="changeModeButton2">Создать аккаунт</string>
+    <string name="loginButton">Войти</string>
+    <string name="incorrect_login_or_password_alert">Неверный логин или пароль</string>
+    <string name="terms_of_use_alert">Вы не приняли условия пользования</string>
+    <string name="passwords_not_match_alert">Пароли не совпадают</string>
+    <string name="incorrect_email_alert">Некорректный E-Mail</string>
+    <string name="incorrect_login_alert">Некорректный логин</string>
+    <string name="login_already_exists">Логин уже существует</string>
+    <string name="quit_alert_title">Выйти из приложения?</string>
+    <string name="alert_yes_option">Да</string>
+    <string name="alert_no_option">Нет</string>
+    <string name="exit_from_account">Выйти из аккаунта</string>
+    <string name="performer">Performer</string>
+    <string name="song">Song</string>
+    <string name="_3_54">3:54</string>
+    <string name="_4_10">4:10</string>
 </resources>
