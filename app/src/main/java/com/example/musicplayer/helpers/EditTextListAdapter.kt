@@ -1,4 +1,4 @@
-package com.example.musicplayer
+package com.example.musicplayer.helpers
 
 import android.text.Editable
 import android.text.TextWatcher

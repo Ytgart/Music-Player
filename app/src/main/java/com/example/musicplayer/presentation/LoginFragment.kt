@@ -5,17 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.*
 import com.example.musicplayer.databinding.FragmentLoginBinding
+import com.example.musicplayer.helpers.DialogueWindowManager
+import com.example.musicplayer.helpers.UserDataValidator
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var validator: UserDataValidator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        validator = UserDataValidator()
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -36,36 +40,26 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val loginManager = (activity as MainActivity).loginManager
-        val recyclerView = binding.inputFieldList
-
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = EditTextListAdapter(
-            arrayOf(
-                getString(R.string.login_text_field),
-                getString(R.string.password_text_field)
-            ), arrayOf(1, 1 or 128), arrayOf(false, true)
-        )
-
-        val rvAdapter = recyclerView.adapter as EditTextListAdapter
 
         binding.loginButton.setOnClickListener {
-            val userDataFromDB = (activity as MainActivity).playerUserDao
-                .getUserByLogin(rvAdapter.getTypedTexts()[0])
-
-            if (loginManager.checkLoginData(
-                    rvAdapter.getTypedTexts()[0],
-                    rvAdapter.getTypedTexts()[1],
+            val userDataFromDB =
+                (activity as MainActivity)
+                    .playerUserDao.getUserByLogin(binding.loginEditText.text.toString())
+            if (validator.checkLoginData(
+                    binding.loginEditText.text.toString(),
+                    binding.passwordEditText.text.toString(),
                     userDataFromDB
                 )
             ) {
-                loginManager.saveLoginState(true)
-                this.findNavController()
-                    .navigate(R.id.action_loginFragment_to_playerFragment)
-            } else DialogueWindowManager.showAlert(
-                getString(R.string.incorrect_login_or_password_alert),
-                requireContext()
-            )
+                this.findNavController().navigate(R.id.action_loginFragment_to_playerFragment)
+                (activity as MainActivity).loginStateRepository.saveLoginState(true)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.incorrect_login_or_password_alert),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.newAccountButton.setOnClickListener {

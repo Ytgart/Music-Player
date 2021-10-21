@@ -5,15 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.musicplayer.data.database.PlayerUser
 import com.example.musicplayer.*
+import com.example.musicplayer.data.database.PlayerUser
 import com.example.musicplayer.databinding.FragmentRegisterBinding
+import com.example.musicplayer.helpers.UserDataValidator
 
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
-    private val userDataValidator = UserDataValidator()
+    private lateinit var validator: UserDataValidator
+    private lateinit var navController: NavController
+    private val registerViewModel: RegisterViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        validator = UserDataValidator()
+        navController = this.findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,61 +35,39 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val playerUserDao = (activity as MainActivity).playerUserDao
-        val loginManager = (activity as MainActivity).loginManager
-        val recyclerView = binding.inputFieldList
-
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = EditTextListAdapter(
-            arrayOf(
-                getString(R.string.login_text_field),
-                getString(R.string.email_text_field),
-                getString(R.string.password_text_field),
-                getString(R.string.repeat_password_text_field)
-            ), arrayOf(1, 1 or 32, 1 or 128, 1 or 128), arrayOf(false, false, true, true)
+        val inputFields = arrayOf(
+            binding.loginEditText,
+            binding.emailEditText,
+            binding.passwordEditText,
+            binding.repeatPasswordEditText
         )
-
-        val rvAdapter = recyclerView.adapter as EditTextListAdapter
+        validator.setValidationListeners(inputFields)
 
         binding.loginButton.setOnClickListener {
-            val typedTexts = rvAdapter.getTypedTexts()
-            val newUserData = PlayerUser(typedTexts[0], typedTexts[1], typedTexts[2])
-
-            when (userDataValidator.validate(newUserData, typedTexts[3])) {
-                0 -> {
-                    if (playerUserDao.getUserByLogin(newUserData.login) == null) {
-                        playerUserDao.insert(newUserData)
-                        loginManager.saveLoginState(true)
-                        this.findNavController()
-                            .navigate(R.id.action_registerFragment_to_playerFragment)
-                    } else {
-                        DialogueWindowManager.showAlert(
-                            getString(R.string.login_already_exists),
-                            requireActivity()
-                        )
-                    }
-                }
-                1 -> DialogueWindowManager.showAlert(
-                    getString(R.string.passwords_not_match_alert),
-                    requireActivity()
+            validator.validateFields(inputFields)
+            if (validator.hasNoErrors(inputFields)) {
+                val data = PlayerUser(
+                    binding.loginEditText.text.toString(),
+                    binding.emailEditText.text.toString(),
+                    binding.passwordEditText.text.toString()
                 )
-                2 -> DialogueWindowManager.showAlert(
-                    getString(R.string.incorrect_email_alert),
-                    requireActivity()
-                )
-                3 -> DialogueWindowManager.showAlert(
-                    getString(R.string.incorrect_login_alert),
-                    requireActivity()
-                )
+                (activity as MainActivity).playerUserDao.insert(data)
+                (activity as MainActivity).loginStateRepository.saveLoginState(true)
+                navController.navigate(R.id.action_registerFragment_to_playerFragment)
             }
         }
 
+        registerViewModel.buttonState.observe(viewLifecycleOwner, {
+            binding.loginButton.isEnabled = it
+        })
+
         binding.newAccountButton.setOnClickListener {
-            this.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            navController.navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.registerCheckBox.setOnClickListener {
             binding.loginButton.isEnabled = binding.registerCheckBox.isChecked
+            registerViewModel.buttonState.postValue(binding.registerCheckBox.isChecked)
         }
     }
 }

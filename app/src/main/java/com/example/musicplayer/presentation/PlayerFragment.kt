@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.*
 import com.example.musicplayer.databinding.FragmentPlayerBinding
+import com.example.musicplayer.helpers.DialogueWindowManager
 
 class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
@@ -35,10 +36,9 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val loginManager = (activity as MainActivity).loginManager
 
         binding.exitButton.setOnClickListener {
-            loginManager.saveLoginState(false)
+            (activity as MainActivity).loginStateRepository.saveLoginState(false)
             this.findNavController().navigate(R.id.action_playerFragment_to_loginFragment)
         }
     }
