@@ -1,0 +1,32 @@
+[
+  {
+    "coverPath": "cover1",
+    "name": "Run",
+    "performer": "Foo Fighters",
+    "duration": 360
+  },
+  {
+    "coverPath": "cover2",
+    "name": "Малахит",
+    "performer": "Шары",
+    "duration": 360
+  },
+  {
+    "coverPath": "cover3",
+    "name": "Can't Stop",
+    "performer": "Red Hot Chili Peppers",
+    "duration": 360
+  },
+  {
+    "coverPath": "cover4",
+    "name": "Pieces",
+    "performer": "Sum 41",
+    "duration": 360
+  },
+  {
+    "coverPath": "cover5",
+    "name": "Never Too Late",
+    "performer": "Three Days Grace",
+    "duration": 360
+  }
+]

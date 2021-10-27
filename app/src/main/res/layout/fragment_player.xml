@@ -22,18 +22,18 @@
         tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/albumCover"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:layout_marginTop="120dp"
-        android:src="@drawable/m1000x1000"
+        android:src="@drawable/cover1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/playerIndicator"
         android:layout_width="350dp"
         android:layout_height="20dp"
         android:layout_marginTop="140dp"
@@ -41,10 +41,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/albumCover" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/playButton"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_marginTop="16dp"
@@ -53,11 +53,11 @@
         android:src="@drawable/play_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/playerIndicator"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/previousButton"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_marginTop="10dp"
@@ -66,13 +66,13 @@
         android:background="?selectableItemBackground"
         android:scaleType="fitXY"
         android:src="@drawable/next_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
-        app:layout_constraintTop_toTopOf="@+id/imageButton3"
+        app:layout_constraintBottom_toBottomOf="@+id/playButton"
+        app:layout_constraintEnd_toStartOf="@+id/playButton"
+        app:layout_constraintTop_toTopOf="@+id/playButton"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/nextButton"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_marginStart="25dp"
@@ -82,13 +82,13 @@
         android:scaleType="fitXY"
         android:scaleX="-1"
         android:src="@drawable/next_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
-        app:layout_constraintStart_toEndOf="@+id/imageButton3"
-        app:layout_constraintTop_toTopOf="@+id/imageButton3"
+        app:layout_constraintBottom_toBottomOf="@+id/playButton"
+        app:layout_constraintStart_toEndOf="@+id/playButton"
+        app:layout_constraintTop_toTopOf="@+id/playButton"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/performerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -96,12 +96,12 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/performer"
         android:textSize="17sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/playerIndicator"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/songName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -109,28 +109,28 @@
         android:text="@string/song"
         android:textColor="@color/text_color_selector"
         android:textSize="21sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/performerText"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/timeCurrent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/_3_54"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/playerIndicator"
+        app:layout_constraintTop_toBottomOf="@+id/playerIndicator"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/timeFull"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/_4_10"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/playerIndicator"
+        app:layout_constraintTop_toBottomOf="@+id/playerIndicator"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
