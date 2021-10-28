@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -44,9 +45,21 @@ class PlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.changeSongData(jsonDataRepository.songs[0])
 
-        binding.exitButton.setOnClickListener {
-            (activity as MainActivity).loginStateRepository.saveLoginState(false)
-            this.findNavController().navigate(R.id.action_playerFragment_to_loginFragment)
+        val popupMenu = PopupMenu(requireContext(), binding.menuButton)
+        popupMenu.inflate(R.menu.player_popup)
+
+        binding.menuButton.setOnClickListener {
+            popupMenu.show()
+        }
+
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.exit -> {
+                    (activity as MainActivity).loginStateRepository.saveLoginState(false)
+                    this.findNavController().navigate(R.id.action_playerFragment_to_loginFragment)
+                }
+            }
+            false
         }
 
         viewModel.songData.observe(viewLifecycleOwner, {
