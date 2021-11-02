@@ -12,6 +12,7 @@ import com.example.musicplayer.*
 import com.example.musicplayer.data.database.PlayerUser
 import com.example.musicplayer.databinding.FragmentRegisterBinding
 import com.example.musicplayer.helpers.UserDataValidator
+import dev.chrisbanes.insetter.applyInsetter
 
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
@@ -30,6 +31,12 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
+
+        binding.root.applyInsetter {
+            type(navigationBars = true) {
+                margin()
+            }
+        }
         return binding.root
     }
 

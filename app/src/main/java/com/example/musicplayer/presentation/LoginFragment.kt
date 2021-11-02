@@ -12,6 +12,7 @@ import com.example.musicplayer.*
 import com.example.musicplayer.databinding.FragmentLoginBinding
 import com.example.musicplayer.helpers.DialogueWindowManager
 import com.example.musicplayer.helpers.UserDataValidator
+import dev.chrisbanes.insetter.applyInsetter
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -35,6 +36,12 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        binding.root.applyInsetter {
+            type(navigationBars = true) {
+                margin()
+            }
+        }
         return binding.root
     }
 
