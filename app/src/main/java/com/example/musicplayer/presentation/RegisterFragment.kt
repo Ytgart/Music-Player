@@ -53,7 +53,7 @@ class RegisterFragment : Fragment() {
                 )
                 (activity as MainActivity).playerUserDao.insert(data)
                 (activity as MainActivity).loginStateRepository.saveLoginState(true)
-                navController.navigate(R.id.action_registerFragment_to_playerFragment)
+                navController.navigate(R.id.action_registerFragment_to_mainScreenFragment)
             }
         }
 

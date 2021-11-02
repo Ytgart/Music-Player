@@ -4,33 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.musicplayer.*
-import com.example.musicplayer.data.JsonDataRepository
+import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentPlayerBinding
-import com.example.musicplayer.helpers.DialogueWindowManager
+import com.example.musicplayer.domain.Song
 
 class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
-    private val viewModel: PlayerViewModel by viewModels()
-    private lateinit var jsonDataRepository: JsonDataRepository
+    private val viewModel: PlayerViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        jsonDataRepository = JsonDataRepository(requireContext())
-        jsonDataRepository.loadData()
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    DialogueWindowManager.showExitDialogue(requireContext())
-                }
-            })
     }
 
     override fun onCreateView(
@@ -43,43 +29,24 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.changeSongData(jsonDataRepository.songs[0])
 
-        val popupMenu = PopupMenu(requireContext(), binding.menuButton)
-        popupMenu.inflate(R.menu.player_popup)
-
-        binding.menuButton.setOnClickListener {
-            popupMenu.show()
-        }
-
-        popupMenu.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.exit -> {
-                    (activity as MainActivity).loginStateRepository.saveLoginState(false)
-                    this.findNavController().navigate(R.id.action_playerFragment_to_loginFragment)
-                }
-            }
-            false
-        }
-
-        viewModel.songData.observe(viewLifecycleOwner, {
-            binding.performerText.text = it.performer
-            binding.songName.text = it.name
-            val id = resources.getIdentifier(
-                "@drawable/${it.coverPath}",
-                null,
-                activity?.packageName
-            )
-            binding.albumCover.setImageResource(id)
+        viewModel.currentSongData.observe(viewLifecycleOwner, {
+            updateSongUI(it)
         })
 
-        binding.nextButton.setOnClickListener {
-            if (viewModel.currentSong.value!! < jsonDataRepository.songs.size - 1) {
-                viewModel.currentSong.postValue(viewModel.currentSong.value!! + 1)
-            } else {
-                viewModel.currentSong.postValue(0)
-            }
-            viewModel.changeSongData(jsonDataRepository.songs[viewModel.currentSong.value!!])
+        binding.menuButton.setOnClickListener {
+            findNavController().navigate(R.id.action_playerFragment_to_mainScreenFragment)
         }
+    }
+
+    private fun updateSongUI(newSong: Song?) {
+        binding.performerText.text = newSong?.performer
+        binding.songName.text = newSong?.name
+        val id = resources.getIdentifier(
+            "@drawable/${newSong?.coverPath}",
+            null,
+            activity?.packageName
+        )
+        binding.albumCover.setImageResource(id)
     }
 }

@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="presentation.PlayerFragment">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".presentation.MainActivity">
+
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:background="?selectableItemBackground"
+        android:padding="13dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/close_icon"
+        tools:ignore="ContentDescription,MissingConstraints" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/albumCardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="20dp"
         app:cardBackgroundColor="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/text_color_selector"
         app:strokeWidth="1dp">
 
@@ -23,142 +32,103 @@
             android:id="@+id/albumCover"
             android:layout_width="350dp"
             android:layout_height="350dp"
-            android:src="@drawable/cover1" />
+            android:src="@drawable/cover1"
+            tools:ignore="ContentDescription" />
     </com.google.android.material.card.MaterialCardView>
-
-    <ImageView
-        android:id="@+id/playerIndicator"
-        android:layout_width="350dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="150dp"
-        android:src="@drawable/progressbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/albumCardView" />
-
-    <ImageButton
-        android:id="@+id/playButton"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="16dp"
-        android:background="?selectableItemBackground"
-        android:scaleType="fitXY"
-        android:src="@drawable/play_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playerIndicator"
-        tools:ignore="MissingConstraints" />
-
-    <ImageButton
-        android:id="@+id/previousButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="10dp"
-        android:background="?selectableItemBackground"
-        android:padding="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/next_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/playButton"
-        app:layout_constraintEnd_toStartOf="@+id/playButton"
-        app:layout_constraintTop_toTopOf="@+id/playButton"
-        tools:ignore="MissingConstraints" />
-
-    <ImageButton
-        android:id="@+id/nextButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="?selectableItemBackground"
-        android:padding="10dp"
-        android:scaleType="fitXY"
-        android:scaleX="-1"
-        android:src="@drawable/next_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/playButton"
-        app:layout_constraintStart_toEndOf="@+id/playButton"
-        app:layout_constraintTop_toTopOf="@+id/playButton"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/performerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/performer"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toTopOf="@+id/playerIndicator"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/songName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/song"
         android:textColor="@color/text_color_selector"
-        android:textSize="21sp"
-        app:layout_constraintBottom_toTopOf="@+id/performerText"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        android:textSize="21sp" />
 
     <TextView
-        android:id="@+id/timeCurrent"
+        android:id="@+id/performerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/_3_54"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/playerIndicator"
-        app:layout_constraintTop_toBottomOf="@+id/playerIndicator"
-        tools:ignore="MissingConstraints" />
+        android:layout_gravity="start"
+        android:layout_marginStart="21dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/performer"
+        android:textSize="17sp" />
 
-    <TextView
-        android:id="@+id/timeFull"
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="20dp"
+        android:progress="30"
+        android:progressTint="@color/text_color_selector"
+        android:thumbTint="@color/text_color_selector" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/_4_10"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/playerIndicator"
-        app:layout_constraintTop_toBottomOf="@+id/playerIndicator"
-        tools:ignore="MissingConstraints" />
+        android:orientation="horizontal">
 
-    <ImageButton
-        android:id="@+id/menuButton"
-        android:layout_width="24dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="34dp"
-        android:background="?selectableItemBackground"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/menu_points"
-        app:layout_constraintBottom_toTopOf="@+id/albumCardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/timeCurrent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="306dp"
+            android:text="@string/_3_54"
+            android:textSize="12sp" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="19dp"
-        android:background="?selectableItemBackground"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/heart"
-        app:layout_constraintBottom_toTopOf="@+id/playerIndicator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.94"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/timeFull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_4_10"
+            android:textSize="12sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/playerBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/previousButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="30dp"
+            android:background="?selectableItemBackground"
+            android:padding="12dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/next_icon"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="?selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/play_icon"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/nextButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="30dp"
+            android:background="?selectableItemBackground"
+            android:padding="12dp"
+            android:scaleType="fitXY"
+            android:scaleX="-1"
+            android:src="@drawable/next_icon"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+</LinearLayout>

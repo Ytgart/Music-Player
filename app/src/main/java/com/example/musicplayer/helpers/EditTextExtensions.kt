@@ -1,8 +1,7 @@
-package com.example.musicplayer
+package com.example.musicplayer.helpers
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 

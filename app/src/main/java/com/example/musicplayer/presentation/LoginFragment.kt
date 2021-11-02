@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
                     userDataFromDB
                 )
             ) {
-                this.findNavController().navigate(R.id.action_loginFragment_to_playerFragment)
+                this.findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
                 (activity as MainActivity).loginStateRepository.saveLoginState(true)
             } else {
                 Toast.makeText(
