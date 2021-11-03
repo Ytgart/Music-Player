@@ -1,5 +1,6 @@
 package com.example.musicplayer.presentation
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,9 +38,11 @@ class LoginFragment : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        binding.root.applyInsetter {
-            type(navigationBars = true) {
-                margin()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.root.applyInsetter {
+                type(navigationBars = true) {
+                    margin()
+                }
             }
         }
         return binding.root

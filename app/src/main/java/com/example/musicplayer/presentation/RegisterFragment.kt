@@ -1,5 +1,6 @@
 package com.example.musicplayer.presentation
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +33,11 @@ class RegisterFragment : Fragment() {
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        binding.root.applyInsetter {
-            type(navigationBars = true) {
-                margin()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.root.applyInsetter {
+                type(navigationBars = true) {
+                    margin()
+                }
             }
         }
         return binding.root
