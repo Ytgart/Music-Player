@@ -60,7 +60,8 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_playerFragment"
             app:destination="@id/playerFragment"
-            app:enterAnim="@android:anim/slide_in_left" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_mainScreenFragment_to_loginFragment"
             app:destination="@id/loginFragment"
