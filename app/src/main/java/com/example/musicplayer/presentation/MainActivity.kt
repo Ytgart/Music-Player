@@ -1,54 +1,36 @@
 package com.example.musicplayer.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.room.Room
 import com.example.musicplayer.R
-import com.example.musicplayer.data.LoginStateRepository
-import com.example.musicplayer.data.database.PlayerDatabase
-import com.example.musicplayer.data.database.PlayerUserDao
 import com.example.musicplayer.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val activityViewModel: ActivityViewModel by viewModels()
+    private val loginViewModel by viewModel<LoginViewModel>()
     val playerViewModel: PlayerViewModel by viewModels()
-    lateinit var playerUserDao: PlayerUserDao
-        private set
-    lateinit var loginStateRepository: LoginStateRepository
-        private set
     lateinit var navController: NavController
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loginStateRepository = LoginStateRepository(this)
-
-        val db =
-            Room.databaseBuilder(
-                applicationContext, PlayerDatabase::class.java, "main-database"
-            ).allowMainThreadQueries().build()
-        playerUserDao = db.playerUserDao()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         navController = navHostFragment.navController
 
-        activityViewModel.isOnLoginScreen.observe(this, { isOnLoginScreen ->
-            if (!isOnLoginScreen) {
-                activityViewModel.isOnLoginScreen.postValue(true)
-                if (!loginStateRepository.getLoginState()) {
-                    navController.navigate(R.id.loginFragment)
-                }
-            }
+        loginViewModel.loginState.observe(this, {
+            if (!it) navController.navigate(R.id.loginFragment)
         })
     }
 }

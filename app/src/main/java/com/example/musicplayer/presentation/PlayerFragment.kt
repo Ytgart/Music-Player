@@ -15,10 +15,6 @@ class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
     private val viewModel: PlayerViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

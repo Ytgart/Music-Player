@@ -2,26 +2,25 @@ package com.example.musicplayer.presentation
 
 import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.musicplayer.*
+import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentLoginBinding
 import com.example.musicplayer.helpers.DialogueWindowManager
-import com.example.musicplayer.helpers.UserDataValidator
 import dev.chrisbanes.insetter.applyInsetter
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class LoginFragment : Fragment() {
+class LoginFragment() : Fragment() {
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var validator: UserDataValidator
+    private val loginViewModel by sharedViewModel<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        validator = UserDataValidator()
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -51,29 +50,32 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var isShowToast = false
+
         binding.loginButton.setOnClickListener {
-            val userDataFromDB =
-                (activity as MainActivity)
-                    .playerUserDao.getUserByLogin(binding.loginEditText.text.toString())
-            if (validator.checkLoginData(
-                    binding.loginEditText.text.toString(),
-                    binding.passwordEditText.text.toString(),
-                    userDataFromDB
-                )
-            ) {
-                this.findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
-                (activity as MainActivity).loginStateRepository.saveLoginState(true)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.incorrect_login_or_password_alert),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            loginViewModel.tryLoginUser(
+                binding.loginEditText.text.toString(),
+                binding.passwordEditText.text.toString()
+            )
+            if (!isShowToast) isShowToast = true
         }
 
+        loginViewModel.isLoginSuccessful.observe(viewLifecycleOwner, {
+            if (it) {
+                findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
+            } else {
+                if (isShowToast) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.incorrect_login_or_password_alert),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
+
         binding.newAccountButton.setOnClickListener {
-            this.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 }

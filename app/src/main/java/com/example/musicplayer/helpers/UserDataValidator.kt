@@ -5,7 +5,7 @@ import com.example.musicplayer.data.database.PlayerUser
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class UserDataValidator() {
+class UserDataValidator {
     fun validateFields(inputFields: Array<TextInputEditText>) {
         inputFields[0].validate("Некорретный логин") { s -> validateString(s) }
         inputFields[1].validate("Некорректный E-Mail") { s -> validateEmail(s) }
@@ -19,17 +19,17 @@ class UserDataValidator() {
     }
 
     fun setValidationListeners(inputFields: Array<TextInputEditText>) {
-        for (i in 0..3) {
-            inputFields[i].afterTextChanged {
-                (inputFields[i].parent.parent as TextInputLayout).error = null
+        for (element in inputFields) {
+            element.afterTextChanged {
+                (element.parent.parent as TextInputLayout).error = null
             }
         }
     }
 
     fun hasNoErrors(inputFields: Array<TextInputEditText>): Boolean {
         var result = true
-        for (i in 0..3) {
-            result = result && (inputFields[i].parent.parent as TextInputLayout).error == null
+        for (element in inputFields) {
+            result = result && (element.parent.parent as TextInputLayout).error == null
         }
         return result
     }

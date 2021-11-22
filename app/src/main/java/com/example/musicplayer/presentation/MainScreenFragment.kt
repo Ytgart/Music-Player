@@ -77,7 +77,6 @@ class MainScreenFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.exit -> {
-                    (activity as MainActivity).loginStateRepository.saveLoginState(false)
                     findNavController().navigate(R.id.action_mainScreenFragment_to_loginFragment)
                 }
             }
