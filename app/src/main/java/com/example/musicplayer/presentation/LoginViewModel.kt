@@ -15,10 +15,10 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val loginStateRepository: LoginStateRepository,
     private val userRepository: PlayerUserRepository,
-    private val validator: UserDataValidator
+    val validator: UserDataValidator
 ) : ViewModel() {
 
-    private val _loginState = MutableLiveData<Boolean>()
+    private val _loginState = MutableLiveData(true)
     val loginState: LiveData<Boolean>
         get() = _loginState
 
@@ -40,14 +40,14 @@ class LoginViewModel(
         viewModelScope.launch {
             userRepository.addUser(user)
         }
-        loginStateRepository.saveLoginState(true)
+        setLoginState(true)
     }
 
     fun tryLoginUser(login: String, password: String) {
         viewModelScope.launch {
             val dataFromDB = userRepository.getUser(login)
             if (validator.checkLoginData(login, password, dataFromDB)) {
-                loginStateRepository.saveLoginState(true)
+                setLoginState(true)
                 _isLoginSuccessful.postValue(true)
                 delay(1)
                 _isLoginSuccessful.postValue(false)
@@ -57,12 +57,8 @@ class LoginViewModel(
         }
     }
 
-    fun isCorrectInput(list: Array<TextInputEditText>): Boolean {
-        validator.validateFields(list)
-        return validator.hasNoErrors(list)
-    }
-
-    fun setValidationListeners(list: Array<TextInputEditText>) {
-        validator.setValidationListeners(list)
+    fun setLoginState(newState: Boolean) {
+        _loginState.postValue(newState)
+        loginStateRepository.saveLoginState(newState)
     }
 }

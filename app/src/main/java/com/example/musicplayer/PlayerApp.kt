@@ -17,7 +17,9 @@ class PlayerApp : Application() {
                     loginStateModule,
                     loginVMModule,
                     validatorModule,
-                    userRepositoryModule
+                    userRepositoryModule,
+                    jsonRepositoryModule,
+                    playerVMModule
                 )
             )
         }

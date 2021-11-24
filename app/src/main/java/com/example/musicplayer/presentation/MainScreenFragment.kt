@@ -11,20 +11,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
-import com.example.musicplayer.data.JsonDataRepository
 import com.example.musicplayer.databinding.FragmentMainScreenBinding
 import com.example.musicplayer.helpers.DialogueWindowManager
 import com.example.musicplayer.helpers.SongListAdapter
 import dev.chrisbanes.insetter.applyInsetter
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MainScreenFragment : Fragment() {
     private lateinit var binding: FragmentMainScreenBinding
-    private lateinit var jsonDataRepository: JsonDataRepository
+    private val loginViewModel by sharedViewModel<LoginViewModel>()
+    private val playerViewModel by sharedViewModel<PlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        jsonDataRepository = JsonDataRepository(requireContext())
-        jsonDataRepository.loadData()
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -77,6 +76,7 @@ class MainScreenFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.exit -> {
+                    loginViewModel.setLoginState(false)
                     findNavController().navigate(R.id.action_mainScreenFragment_to_loginFragment)
                 }
             }
@@ -84,7 +84,10 @@ class MainScreenFragment : Fragment() {
         }
 
         val recyclerView = binding.songListRV
-        recyclerView.adapter = SongListAdapter(jsonDataRepository.songs)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        playerViewModel.songList.observe(viewLifecycleOwner, {
+            recyclerView.adapter = SongListAdapter(it)
+        })
     }
 }

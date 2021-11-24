@@ -1,8 +1,6 @@
 package com.example.musicplayer.presentation
 
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
@@ -14,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel by viewModel<LoginViewModel>()
-    val playerViewModel: PlayerViewModel by viewModels()
+    val playerViewModel by viewModel<PlayerViewModel>()
     lateinit var navController: NavController
         private set
 
@@ -30,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         loginViewModel.loginState.observe(this, {
-            if (!it) navController.navigate(R.id.loginFragment)
+            if (!it && navController.currentDestination?.id != R.id.loginFragment)
+                navController.navigate(R.id.action_mainScreenFragment_to_loginFragment)
         })
     }
 }

@@ -10,9 +10,7 @@ import com.example.musicplayer.databinding.SongListItemBinding
 import com.example.musicplayer.domain.Song
 import com.example.musicplayer.presentation.MainActivity
 
-class SongListAdapter(
-    private val songList: List<Song>,
-) :
+class SongListAdapter(private val songList: List<Song>) :
     RecyclerView.Adapter<SongListAdapter.SongItemViewHolder>() {
 
     inner class SongItemViewHolder(binding: SongListItemBinding) :
@@ -50,8 +48,7 @@ class SongListAdapter(
 
         holder.coverImageView?.rootView?.setOnClickListener {
             val activity = (it.context as MainActivity)
-            activity.playerViewModel.currentSongData
-                .postValue(songList[position])
+            activity.playerViewModel.setCurrentSong(songList[position])
             activity.navController
                 .navigate(R.id.action_mainScreenFragment_to_playerFragment)
         }

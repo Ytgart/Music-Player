@@ -8,15 +8,20 @@ import com.squareup.moshi.Types
 import java.lang.reflect.Type
 
 class JsonDataRepository(val context: Context) {
-    var songs: List<Song> = listOf()
-        private set
+    private lateinit var moshiAdapter: JsonAdapter<List<Song>>
 
-    fun loadData() {
+    init {
+        buildMoshi()
+    }
+
+    private fun buildMoshi() {
         val moshi = Moshi.Builder().build()
         val songDataList: Type = Types.newParameterizedType(List::class.java, Song::class.java)
-        val adapter: JsonAdapter<List<Song>> = moshi.adapter(songDataList)
+        moshiAdapter = moshi.adapter(songDataList)
+    }
 
-        songs = adapter.fromJson(context.assets.open("test.json").bufferedReader()
+    fun getSongs(): List<Song> {
+        return moshiAdapter.fromJson(context.assets.open("test.json").bufferedReader()
             .use { it.readText() })!!
     }
 }

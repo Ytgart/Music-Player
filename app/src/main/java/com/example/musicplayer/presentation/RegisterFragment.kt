@@ -42,10 +42,11 @@ class RegisterFragment : Fragment() {
             binding.repeatPasswordEditText
         )
 
-        loginViewModel.setValidationListeners(inputFields)
+        loginViewModel.validator.setValidationListeners(inputFields)
 
         binding.loginButton.setOnClickListener {
-            if (loginViewModel.isCorrectInput(inputFields)) {
+            loginViewModel.validator.validateFields(inputFields)
+            if (loginViewModel.validator.hasNoErrors(inputFields)) {
                 val data = PlayerUser(
                     binding.loginEditText.text.toString(),
                     binding.emailEditText.text.toString(),
@@ -66,6 +67,7 @@ class RegisterFragment : Fragment() {
 
         loginViewModel.isRegisterButtonEnabled.observe(viewLifecycleOwner, {
             binding.loginButton.isEnabled = it
+            binding.registerCheckBox.isChecked = it
         })
     }
 }
