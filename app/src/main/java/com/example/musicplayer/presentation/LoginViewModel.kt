@@ -13,14 +13,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val loginStateRepository: LoginStateRepository,
     private val userRepository: PlayerUserRepository,
+    val loginStateRepository: LoginStateRepository,
     val validator: UserDataValidator
 ) : ViewModel() {
-
-    private val _loginState = MutableLiveData(true)
-    val loginState: LiveData<Boolean>
-        get() = _loginState
 
     private val _isLoginSuccessful = MutableLiveData(false)
     val isLoginSuccessful: LiveData<Boolean>
@@ -30,24 +26,20 @@ class LoginViewModel(
     val isRegisterButtonEnabled: LiveData<Boolean>
         get() = _isRegisterButtonEnabled
 
-    init {
-        _loginState.postValue(loginStateRepository.getLoginState())
-    }
-
     fun setRegisterButtonEnabled(newState: Boolean) = _isRegisterButtonEnabled.postValue(newState)
 
     fun registerUser(user: PlayerUser) {
         viewModelScope.launch {
             userRepository.addUser(user)
         }
-        setLoginState(true)
+        loginStateRepository.saveLoginState(true)
     }
 
     fun tryLoginUser(login: String, password: String) {
         viewModelScope.launch {
             val dataFromDB = userRepository.getUser(login)
             if (validator.checkLoginData(login, password, dataFromDB)) {
-                setLoginState(true)
+                loginStateRepository.saveLoginState(true)
                 _isLoginSuccessful.postValue(true)
                 delay(1)
                 _isLoginSuccessful.postValue(false)
@@ -55,10 +47,5 @@ class LoginViewModel(
                 _isLoginSuccessful.postValue(false)
             }
         }
-    }
-
-    fun setLoginState(newState: Boolean) {
-        _loginState.postValue(newState)
-        loginStateRepository.saveLoginState(newState)
     }
 }

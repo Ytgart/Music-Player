@@ -27,9 +27,8 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         navController = navHostFragment.navController
 
-        loginViewModel.loginState.observe(this, {
-            if (!it && navController.currentDestination?.id != R.id.loginFragment)
-                navController.navigate(R.id.action_mainScreenFragment_to_loginFragment)
-        })
+        if (!loginViewModel.loginStateRepository.isLogged()) {
+            navController.navigate(R.id.action_mainScreenFragment_to_loginFragment)
+        }
     }
 }

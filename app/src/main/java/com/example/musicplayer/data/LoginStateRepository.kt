@@ -12,5 +12,5 @@ class LoginStateRepository(context: Context) {
         editor.apply()
     }
 
-    fun getLoginState() = sharedPref.getBoolean("isLogged", false)
+    fun isLogged() = sharedPref.getBoolean("isLogged", false)
 }

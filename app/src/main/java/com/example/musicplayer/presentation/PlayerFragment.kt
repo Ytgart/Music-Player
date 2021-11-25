@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
+import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
-import com.example.musicplayer.domain.Song
+import com.squareup.picasso.Picasso
 
 class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
@@ -38,11 +39,9 @@ class PlayerFragment : Fragment() {
     private fun updateSongUI(newSong: Song?) {
         binding.performerText.text = newSong?.performer
         binding.songName.text = newSong?.name
-        val id = resources.getIdentifier(
-            "@drawable/${newSong?.coverPath}",
-            null,
-            activity?.packageName
-        )
-        binding.albumCover.setImageResource(id)
+
+        Picasso.get()
+            .load(newSong?.coverURL)
+            .into(binding.albumCover)
     }
 }

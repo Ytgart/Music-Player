@@ -1,7 +1,7 @@
 package com.example.musicplayer.data
 
 import android.content.Context
-import com.example.musicplayer.domain.Song
+import com.example.musicplayer.data.database.Song
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

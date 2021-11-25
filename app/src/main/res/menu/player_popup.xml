@@ -6,7 +6,9 @@
             android:icon="@android:drawable/ic_delete"
             android:title="@string/open_file_menu_string"
             />
-        <item android:title="@string/get_from_api_menu_string" />
+        <item
+            android:id="@+id/getFromAPI"
+            android:title="@string/get_from_api_menu_string" />
     </group>
 
     <group android:id="@+id/group2">
