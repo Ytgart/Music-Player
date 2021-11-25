@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
@@ -123,14 +124,24 @@ class MainScreenFragment : Fragment() {
     private fun showEnterIDDialogue(context: Context) {
         val builder = AlertDialog.Builder(context)
 
+        val layout = LinearLayout(context)
+        layout.orientation = LinearLayout.VERTICAL
+
         val input = EditText(context)
         input.hint = "Введите ID трека"
         input.inputType = InputType.TYPE_CLASS_TEXT
-        builder.setView(input)
+        layout.addView(input)
+
+        val input2 = EditText(context)
+        input2.hint = "Введите ваш Spotify Token"
+        input2.inputType = InputType.TYPE_CLASS_TEXT
+        layout.addView(input2)
+
+        builder.setView(layout)
 
         builder.setTitle("Добавить трек по ID")
         builder.setPositiveButton("Ок") { _, _ ->
-            playerViewModel.addSong(input.text.toString())
+            playerViewModel.addSong(input.text.toString(), input2.text.toString())
         }
         builder.create()
         builder.show()

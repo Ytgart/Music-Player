@@ -25,9 +25,9 @@ class PlayerViewModel(
 
     fun setCurrentSong(newSong: Song) = _currentSongData.postValue(newSong)
 
-    fun addSong(id: String) {
+    fun addSong(id: String, token: String) {
         viewModelScope.launch {
-            playerDatabase.playerDBDao().insertSong(spotifyAPIRepository.getSongInfo(id))
+            playerDatabase.playerDBDao().insertSong(spotifyAPIRepository.getSongInfo(id, token))
         }
     }
 

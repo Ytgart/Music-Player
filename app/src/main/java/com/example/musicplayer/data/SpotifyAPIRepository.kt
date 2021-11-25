@@ -8,8 +8,9 @@ import org.json.JSONTokener
 
 class SpotifyAPIRepository(private val spotifyAPIRequester: SpotifyAPIRequester) {
 
-    suspend fun getSongInfo(id: String): Song {
-        val jsonObject = JSONObject(JSONTokener(spotifyAPIRequester.requestSong(id).receive()))
+    suspend fun getSongInfo(id: String, token: String): Song {
+        val jsonObject =
+            JSONObject(JSONTokener(spotifyAPIRequester.requestSong(id, token).receive()))
 
         val imageURL = jsonObject
             .getJSONObject("album")
