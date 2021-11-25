@@ -19,7 +19,6 @@ class PlayerApp : Application() {
                     loginVMModule,
                     validatorModule,
                     userRepositoryModule,
-                    jsonRepositoryModule,
                     playerVMModule,
                     spotifyAPIRepositoryModule,
                     spotifyAPIRequesterModule

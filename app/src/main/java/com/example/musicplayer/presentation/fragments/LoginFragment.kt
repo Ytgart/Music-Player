@@ -1,4 +1,4 @@
-package com.example.musicplayer.presentation
+package com.example.musicplayer.presentation.fragments
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentLoginBinding
 import com.example.musicplayer.helpers.DialogueWindowManager
+import com.example.musicplayer.presentation.LoginViewModel
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

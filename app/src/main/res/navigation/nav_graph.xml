@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.musicplayer.presentation.RegisterFragment"
+        android:name="com.example.musicplayer.presentation.fragments.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
-        android:name="com.example.musicplayer.presentation.PlayerFragment"
+        android:name="com.example.musicplayer.presentation.fragments.PlayerFragment"
         android:label="fragment_player"
         tools:layout="@layout/fragment_player">
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.musicplayer.presentation.LoginFragment"
+        android:name="com.example.musicplayer.presentation.fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="com.example.musicplayer.presentation.MainScreenFragment"
+        android:name="com.example.musicplayer.presentation.fragments.MainScreenFragment"
         android:label="fragment_main_screen"
         tools:layout="@layout/fragment_main_screen" >
         <action
@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
-        android:name="com.example.musicplayer.presentation.FavouritesFragment"
+        android:name="com.example.musicplayer.presentation.fragments.FavouritesFragment"
         android:label="fragment_favourites"
         tools:layout="@layout/fragment_favourites" >
         <action

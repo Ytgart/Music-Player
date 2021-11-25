@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicplayer.data.JsonDataRepository
 import com.example.musicplayer.data.SpotifyAPIRepository
 import com.example.musicplayer.data.database.PlayerDatabase
 import com.example.musicplayer.data.database.Song

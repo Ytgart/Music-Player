@@ -1,4 +1,4 @@
-package com.example.musicplayer.presentation
+package com.example.musicplayer.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
+import com.example.musicplayer.presentation.PlayerViewModel
 import com.squareup.picasso.Picasso
 import java.util.concurrent.TimeUnit
 
