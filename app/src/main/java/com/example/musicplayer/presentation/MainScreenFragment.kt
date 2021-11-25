@@ -113,15 +113,18 @@ class MainScreenFragment : Fragment() {
                     loginViewModel.loginStateRepository.saveLoginState(false)
                     findNavController().navigate(R.id.action_mainScreenFragment_to_loginFragment)
                 }
-                R.id.getFromAPI -> {
-                    showEnterIDDialogue(requireContext())
+                R.id.getSongFromAPI -> {
+                    showEnterIDDialogue(requireContext(), 0)
+                }
+                R.id.getAlbumFromAPI -> {
+                    showEnterIDDialogue(requireContext(), 1)
                 }
             }
             false
         }
     }
 
-    private fun showEnterIDDialogue(context: Context) {
+    private fun showEnterIDDialogue(context: Context, mode: Int) {
         val builder = AlertDialog.Builder(context)
 
         val layout = LinearLayout(context)
@@ -141,7 +144,11 @@ class MainScreenFragment : Fragment() {
 
         builder.setTitle("Добавить трек по ID")
         builder.setPositiveButton("Ок") { _, _ ->
-            playerViewModel.addSong(input.text.toString(), input2.text.toString())
+            if (mode == 0) {
+                playerViewModel.addSong(input.text.toString(), input2.text.toString())
+            } else if (mode == 1) {
+                playerViewModel.addAlbum(input.text.toString(), input2.text.toString())
+            }
         }
         builder.create()
         builder.show()

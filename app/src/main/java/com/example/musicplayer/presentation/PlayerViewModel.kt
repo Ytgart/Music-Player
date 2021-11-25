@@ -11,7 +11,6 @@ import com.example.musicplayer.data.database.Song
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
-    private val jsonDataRepository: JsonDataRepository,
     private val spotifyAPIRepository: SpotifyAPIRepository,
     val playerDatabase: PlayerDatabase
 ) : ViewModel() {
@@ -27,7 +26,25 @@ class PlayerViewModel(
 
     fun addSong(id: String, token: String) {
         viewModelScope.launch {
-            playerDatabase.playerDBDao().insertSong(spotifyAPIRepository.getSongInfo(id, token))
+            val songInfo = spotifyAPIRepository.getSongInfo(id, token)
+            if (songInfo != null) {
+                playerDatabase.playerDBDao().insertSong(songInfo)
+            }
+        }
+    }
+
+    fun addAlbum(id: String, token: String) {
+        viewModelScope.launch {
+            val songsInfo = spotifyAPIRepository.getSongsInfo(id, token)
+            if (songsInfo != null) {
+                playerDatabase.playerDBDao().insertSongs(songsInfo)
+            }
+        }
+    }
+
+    fun deleteSong(song: Song) {
+        viewModelScope.launch {
+            playerDatabase.playerDBDao().deleteSong(song)
         }
     }
 

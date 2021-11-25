@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/group1">
-        <item
-            android:icon="@android:drawable/ic_delete"
-            android:title="@string/open_file_menu_string"
-            />
-        <item
-            android:id="@+id/getFromAPI"
-            android:title="@string/get_from_api_menu_string" />
-    </group>
+    <item
+        android:icon="@android:drawable/ic_delete"
+        android:title="@string/open_file_menu_string" />
+    <item
+        android:id="@+id/getSongFromAPI"
+        android:title="Получить песню из API" />
 
-    <group android:id="@+id/group2">
-        <item
-            android:id="@+id/exit"
-            android:title="@string/exit_from_account_menu_string" />
-    </group>
+    <item
+        android:id="@+id/getAlbumFromAPI"
+        android:title="Получить альбом из API" />
+
+    <item
+        android:id="@+id/exit"
+        android:title="@string/exit_from_account_menu_string" />
 
 </menu>

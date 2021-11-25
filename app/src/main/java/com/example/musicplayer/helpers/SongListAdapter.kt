@@ -65,6 +65,12 @@ class SongListAdapter : RecyclerView.Adapter<SongListAdapter.SongItemViewHolder>
             activity.playerViewModel.updateSong(newSongInfo)
         }
 
+        holder.coverImageView?.rootView?.setOnLongClickListener {
+            val activity = (it.context as MainActivity)
+            activity.playerViewModel.deleteSong(songList[position])
+            true
+        }
+
         if (songList[position].isFavorite) {
             holder.imageButton?.setImageResource(R.drawable.heart_pressed)
         } else {

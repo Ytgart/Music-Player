@@ -1,10 +1,7 @@
 package com.example.musicplayer.data.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface PlayerDBDao {
@@ -25,6 +22,9 @@ interface PlayerDBDao {
 
     @Insert
     suspend fun insertSongs(songs: List<Song>)
+
+    @Delete
+    suspend fun deleteSong(song: Song)
 
     @Update
     suspend fun updateSong(song: Song)

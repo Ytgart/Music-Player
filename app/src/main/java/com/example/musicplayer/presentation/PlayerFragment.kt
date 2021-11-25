@@ -11,6 +11,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
 import com.squareup.picasso.Picasso
+import java.util.concurrent.TimeUnit
 
 class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
@@ -36,12 +37,17 @@ class PlayerFragment : Fragment() {
         }
     }
 
-    private fun updateSongUI(newSong: Song?) {
-        binding.performerText.text = newSong?.performer
-        binding.songName.text = newSong?.name
+    private fun updateSongUI(newSong: Song) {
+        binding.performerText.text = newSong.performer
+        binding.songName.text = newSong.name
+
+        val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(newSong.duration.toLong()) % 60
+        val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(newSong.duration.toLong()) % 60
+
+        binding.timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
 
         Picasso.get()
-            .load(newSong?.coverURL)
+            .load(newSong.coverURL)
             .into(binding.albumCover)
     }
 }

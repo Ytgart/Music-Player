@@ -29,12 +29,12 @@ data class Song(
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean = false
 ) {
-    constructor(coverURL: String, name: String, performer: String) : this(
+    constructor(coverURL: String, name: String, performer: String, duration: Int) : this(
         0,
         coverURL,
         name,
         performer,
-        360,
+        duration,
         false
     )
 }
