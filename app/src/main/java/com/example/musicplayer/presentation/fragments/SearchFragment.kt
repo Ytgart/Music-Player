@@ -11,16 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
-import com.example.musicplayer.databinding.FragmentFavouritesBinding
+import com.example.musicplayer.databinding.FragmentSearchBinding
 import com.example.musicplayer.helpers.DialogueWindowManager
 import com.example.musicplayer.helpers.SongListAdapter
+import com.example.musicplayer.helpers.afterTextChanged
 import com.example.musicplayer.presentation.LoginViewModel
 import com.example.musicplayer.presentation.PlayerViewModel
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SearchFragment : Fragment() {
-    private lateinit var binding: FragmentFavouritesBinding
+    private lateinit var binding: FragmentSearchBinding
     private val loginViewModel by sharedViewModel<LoginViewModel>()
     private val playerViewModel by sharedViewModel<PlayerViewModel>()
 
@@ -40,7 +41,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         binding.topText.applyInsetter {
             type(statusBars = true) {
@@ -70,14 +71,17 @@ class SearchFragment : Fragment() {
         configurePopupMenu()
         configureNavigationMenu()
 
+        binding.searchEditText.afterTextChanged {
+            playerViewModel.searchForSongs("$it%")
+        }
+
         val recyclerView = binding.songListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = SongListAdapter()
 
-        playerViewModel.playerDatabase.playerDBDao().getFavouriteSongsList()
-            .observe(viewLifecycleOwner, {
-                (recyclerView.adapter as SongListAdapter).updateSongList(it)
-            })
+        playerViewModel.searchResults.observe(viewLifecycleOwner, {
+            (recyclerView.adapter as SongListAdapter).updateSongList(it)
+        })
     }
 
     private fun configurePopupMenu() {
@@ -104,7 +108,11 @@ class SearchFragment : Fragment() {
             when (it.itemId) {
                 R.id.page_1 -> {
                     playerViewModel.setCurrentMenuItem(R.id.page_1)
-                    findNavController().navigate(R.id.action_favouritesFragment_to_mainScreenFragment)
+                    findNavController().navigate(R.id.action_searchFragment_to_mainScreenFragment)
+                }
+                R.id.page_3 -> {
+                    playerViewModel.setCurrentMenuItem(R.id.page_3)
+                    findNavController().navigate(R.id.action_searchFragment_to_favouritesFragment)
                 }
             }
             false

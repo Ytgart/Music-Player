@@ -18,6 +18,25 @@
         app:layout_constraintStart_toStartOf="@+id/songListRV"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchEditTextLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите название трека или исполнителя.."
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <ImageButton
         android:id="@+id/menuButton"
         android:layout_width="48dp"
@@ -26,7 +45,7 @@
         android:padding="13dp"
         android:scaleType="fitCenter"
         android:src="@drawable/menu_points"
-        app:layout_constraintBottom_toTopOf="@+id/songListRV"
+        app:layout_constraintBottom_toTopOf="@+id/searchEditTextLayout"
         app:layout_constraintEnd_toEndOf="@+id/songListRV"
         tools:ignore="ContentDescription,MissingConstraints" />
 
@@ -35,12 +54,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottomMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topText" />
+        app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomMenu"

@@ -106,6 +106,10 @@ class FavouritesFragment : Fragment() {
                     playerViewModel.setCurrentMenuItem(R.id.page_1)
                     findNavController().navigate(R.id.action_favouritesFragment_to_mainScreenFragment)
                 }
+                R.id.page_2 -> {
+                    playerViewModel.setCurrentMenuItem(R.id.page_2)
+                    findNavController().navigate(R.id.action_favouritesFragment_to_searchFragment)
+                }
             }
             false
         }

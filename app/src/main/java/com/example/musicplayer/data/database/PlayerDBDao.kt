@@ -11,6 +11,9 @@ interface PlayerDBDao {
     @Query("SELECT * FROM Song WHERE isFavorite == 1")
     fun getFavouriteSongsList(): LiveData<List<Song>>
 
+    @Query("SELECT * FROM Song WHERE name LIKE (:name) OR performer LIKE (:name)")
+    suspend fun getSearchedSongs(name: String): List<Song>
+
     @Query("SELECT * FROM PlayerUser WHERE login == (:login)")
     suspend fun getUserByLogin(login: String): PlayerUser
 

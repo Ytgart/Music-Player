@@ -87,6 +87,10 @@ class MainScreenFragment : Fragment() {
     private fun configureNavigationMenu() {
         binding.bottomMenu.setOnItemSelectedListener {
             when (it.itemId) {
+                R.id.page_2 -> {
+                    playerViewModel.setCurrentMenuItem(R.id.page_2)
+                    findNavController().navigate(R.id.action_mainScreenFragment_to_searchFragment)
+                }
                 R.id.page_3 -> {
                     playerViewModel.setCurrentMenuItem(R.id.page_3)
                     findNavController().navigate(R.id.action_mainScreenFragment_to_favouritesFragment)

@@ -21,6 +21,10 @@ class PlayerViewModel(
     val currentMenuItem: LiveData<Int>
         get() = _currentMenuItem
 
+    private val _searchResults = MutableLiveData<List<Song>>()
+    val searchResults: LiveData<List<Song>>
+        get() = _searchResults
+
     fun setCurrentSong(newSong: Song) = _currentSongData.postValue(newSong)
 
     fun addSong(id: String, token: String) {
@@ -38,6 +42,13 @@ class PlayerViewModel(
             if (songsInfo != null) {
                 playerDatabase.playerDBDao().insertSongs(songsInfo)
             }
+        }
+    }
+
+    fun searchForSongs(name: String) {
+        viewModelScope.launch {
+            val results = playerDatabase.playerDBDao().getSearchedSongs(name)
+            _searchResults.postValue(results)
         }
     }
 
