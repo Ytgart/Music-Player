@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
+import com.example.musicplayer.di.playerVMModule
 import com.example.musicplayer.presentation.PlayerViewModel
 import com.squareup.picasso.Picasso
 import java.util.concurrent.TimeUnit
@@ -34,7 +35,7 @@ class PlayerFragment : Fragment() {
         })
 
         binding.menuButton.setOnClickListener {
-            findNavController().navigate(R.id.action_playerFragment_to_mainScreenFragment)
+            findNavController().navigate(R.id.mainScreenFragment)
         }
     }
 

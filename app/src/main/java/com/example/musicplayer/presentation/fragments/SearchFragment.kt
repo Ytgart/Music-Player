@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -32,11 +33,7 @@ class SearchFragment : Fragment() {
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    binding.searchEditTextLayout.clearFocus()
-                    binding.statusTextView.visibility = View.VISIBLE
-                    binding.statusTextView.text = "Начните вводить запрос.."
-                    binding.searchEditText.setText("")
-                    rvAdapter.updateSongList(listOf())
+                    discardSearch()
                 }
             })
     }
@@ -74,15 +71,26 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configureNavigationMenu()
 
+        val recyclerView = binding.songListRV
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = rvAdapter
+
+        binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (binding.searchEditText.text?.isEmpty() == true) {
+                    discardSearch()
+                } else {
+                    binding.searchEditTextLayout.clearFocus()
+                }
+            }
+            false
+        }
+
         binding.searchEditText.afterTextChanged {
             if (it.isNotEmpty()) {
                 searchForSongs(it)
             }
         }
-
-        val recyclerView = binding.songListRV
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = rvAdapter
     }
 
     private fun searchForSongs(query: String) {
@@ -95,6 +103,14 @@ class SearchFragment : Fragment() {
             }
             rvAdapter.updateSongList(it)
         })
+    }
+
+    private fun discardSearch() {
+        binding.searchEditTextLayout.clearFocus()
+        binding.statusTextView.visibility = View.VISIBLE
+        binding.statusTextView.text = "Начните вводить запрос.."
+        binding.searchEditText.setText("")
+        rvAdapter.updateSongList(listOf())
     }
 
     private fun configureNavigationMenu() {
