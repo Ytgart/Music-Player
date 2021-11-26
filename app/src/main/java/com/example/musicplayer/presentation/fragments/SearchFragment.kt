@@ -1,10 +1,12 @@
 package com.example.musicplayer.presentation.fragments
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -32,7 +34,8 @@ class SearchFragment : Fragment() {
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    DialogueWindowManager.showExitDialogue(requireContext())
+                    binding.searchEditTextLayout.clearFocus()
+                    binding.tracksNotFoundText.text = "Начните поиск.."
                 }
             })
     }
@@ -72,7 +75,21 @@ class SearchFragment : Fragment() {
         configureNavigationMenu()
 
         binding.searchEditText.afterTextChanged {
-            playerViewModel.searchForSongs("$it%")
+            if (it == "" || it == " ") {
+                playerViewModel.clearSearchResults()
+                binding.tracksNotFoundText.text = "Начните поиск.."
+            } else {
+                playerViewModel.searchForSongs("$it%")
+            }
+        }
+
+        binding.searchEditText.setOnFocusChangeListener{view, b ->
+            if (!b) {
+                //binding.tracksNotFoundText.visibility = View.INVISIBLE
+
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
         }
 
         val recyclerView = binding.songListRV
@@ -80,6 +97,12 @@ class SearchFragment : Fragment() {
         recyclerView.adapter = SongListAdapter()
 
         playerViewModel.searchResults.observe(viewLifecycleOwner, {
+            if (it.size == 0) {
+                binding.tracksNotFoundText.text = "Треки не найдены"
+            }
+            else {
+                binding.tracksNotFoundText.text = "Результаты поиска:"
+            }
             (recyclerView.adapter as SongListAdapter).updateSongList(it)
         })
     }

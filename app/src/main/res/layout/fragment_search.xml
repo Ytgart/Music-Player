@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Введите название трека или исполнителя.."
-            android:inputType="textPersonName" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
@@ -54,13 +54,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottomMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tracksNotFoundText" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomMenu"
@@ -75,5 +74,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tracksNotFoundText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Начните поиск.."
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/searchEditTextLayout"
+        app:layout_constraintStart_toStartOf="@+id/searchEditTextLayout"
+        app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

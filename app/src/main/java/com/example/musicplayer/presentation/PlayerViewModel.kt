@@ -52,6 +52,10 @@ class PlayerViewModel(
         }
     }
 
+    fun clearSearchResults() {
+        _searchResults.postValue(listOf())
+    }
+
     fun deleteSong(song: Song) {
         viewModelScope.launch {
             playerDatabase.playerDBDao().deleteSong(song)
