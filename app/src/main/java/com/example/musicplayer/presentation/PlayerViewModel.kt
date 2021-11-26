@@ -1,9 +1,7 @@
 package com.example.musicplayer.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.musicplayer.data.SongRepository
 import com.example.musicplayer.data.SpotifyAPIRepository
 import com.example.musicplayer.data.database.PlayerDatabase
 import com.example.musicplayer.data.database.Song
@@ -11,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class PlayerViewModel(
     private val spotifyAPIRepository: SpotifyAPIRepository,
-    val playerDatabase: PlayerDatabase
+    private val songRepository: SongRepository
 ) : ViewModel() {
     private val _currentSongData = MutableLiveData<Song>()
     val currentSongData: LiveData<Song>
@@ -21,17 +19,19 @@ class PlayerViewModel(
     val currentMenuItem: LiveData<Int>
         get() = _currentMenuItem
 
-    private val _searchResults = MutableLiveData<List<Song>>()
-    val searchResults: LiveData<List<Song>>
-        get() = _searchResults
-
     fun setCurrentSong(newSong: Song) = _currentSongData.postValue(newSong)
+
+    fun getAllSongs() = songRepository.getSongs()
+
+    fun getFavouriteSongs() = songRepository.getFavouriteSongs()
+
+    fun searchForSongs(queryString: String) = songRepository.findSongs(queryString)
 
     fun addSong(id: String, token: String) {
         viewModelScope.launch {
             val songInfo = spotifyAPIRepository.getSongInfo(id, token)
             if (songInfo != null) {
-                playerDatabase.playerDBDao().insertSong(songInfo)
+                songRepository.addSong(songInfo)
             }
         }
     }
@@ -40,31 +40,20 @@ class PlayerViewModel(
         viewModelScope.launch {
             val songsInfo = spotifyAPIRepository.getSongsInfo(id, token)
             if (songsInfo != null) {
-                playerDatabase.playerDBDao().insertSongs(songsInfo)
+                songRepository.addSongs(songsInfo)
             }
         }
     }
 
-    fun searchForSongs(name: String) {
-        viewModelScope.launch {
-            val results = playerDatabase.playerDBDao().getSearchedSongs(name)
-            _searchResults.postValue(results)
-        }
-    }
-
-    fun clearSearchResults() {
-        _searchResults.postValue(listOf())
-    }
-
     fun deleteSong(song: Song) {
         viewModelScope.launch {
-            playerDatabase.playerDBDao().deleteSong(song)
+            songRepository.deleteSong(song)
         }
     }
 
     fun updateSong(newSongInfo: Song) {
         viewModelScope.launch {
-            playerDatabase.playerDBDao().updateSong(newSongInfo)
+            songRepository.updateSong(newSongInfo)
         }
     }
 

@@ -1,12 +1,10 @@
 package com.example.musicplayer.presentation.fragments
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -24,8 +22,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
-    private val loginViewModel by sharedViewModel<LoginViewModel>()
     private val playerViewModel by sharedViewModel<PlayerViewModel>()
+    private val rvAdapter = SongListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +33,10 @@ class SearchFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     binding.searchEditTextLayout.clearFocus()
-                    binding.tracksNotFoundText.text = "Начните поиск.."
+                    binding.statusTextView.visibility = View.VISIBLE
+                    binding.statusTextView.text = "Начните вводить запрос.."
+                    binding.searchEditText.setText("")
+                    rvAdapter.updateSongList(listOf())
                 }
             })
     }
@@ -71,59 +72,29 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configurePopupMenu()
         configureNavigationMenu()
 
         binding.searchEditText.afterTextChanged {
-            if (it == "" || it == " ") {
-                playerViewModel.clearSearchResults()
-                binding.tracksNotFoundText.text = "Начните поиск.."
-            } else {
-                playerViewModel.searchForSongs("$it%")
-            }
-        }
-
-        binding.searchEditText.setOnFocusChangeListener{view, b ->
-            if (!b) {
-                //binding.tracksNotFoundText.visibility = View.INVISIBLE
-
-                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            if (it.isNotEmpty()) {
+                searchForSongs(it)
             }
         }
 
         val recyclerView = binding.songListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = SongListAdapter()
-
-        playerViewModel.searchResults.observe(viewLifecycleOwner, {
-            if (it.size == 0) {
-                binding.tracksNotFoundText.text = "Треки не найдены"
-            }
-            else {
-                binding.tracksNotFoundText.text = "Результаты поиска:"
-            }
-            (recyclerView.adapter as SongListAdapter).updateSongList(it)
-        })
+        recyclerView.adapter = rvAdapter
     }
 
-    private fun configurePopupMenu() {
-        val popupMenu = PopupMenu(requireContext(), binding.menuButton)
-        popupMenu.inflate(R.menu.player_popup)
-
-        binding.menuButton.setOnClickListener {
-            popupMenu.show()
-        }
-
-        popupMenu.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.exit -> {
-                    loginViewModel.loginStateRepository.saveLoginState(false)
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_loginFragment)
-                }
+    private fun searchForSongs(query: String) {
+        playerViewModel.searchForSongs(query).observe(viewLifecycleOwner, {
+            if (it.isEmpty()) {
+                binding.statusTextView.visibility = View.VISIBLE
+                binding.statusTextView.text = "Ничего не найдено"
+            } else {
+                binding.statusTextView.visibility = View.INVISIBLE
             }
-            false
-        }
+            rvAdapter.updateSongList(it)
+        })
     }
 
     private fun configureNavigationMenu() {

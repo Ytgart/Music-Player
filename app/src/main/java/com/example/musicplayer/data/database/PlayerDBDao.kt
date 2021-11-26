@@ -1,18 +1,18 @@
 package com.example.musicplayer.data.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlayerDBDao {
     @Query("SELECT * FROM Song")
-    fun getSongsList(): LiveData<List<Song>>
+    fun getSongsList(): Flow<List<Song>>
 
     @Query("SELECT * FROM Song WHERE isFavorite == 1")
-    fun getFavouriteSongsList(): LiveData<List<Song>>
+    fun getFavouriteSongsList(): Flow<List<Song>>
 
-    @Query("SELECT * FROM Song WHERE name LIKE (:name) OR performer LIKE (:name)")
-    suspend fun getSearchedSongs(name: String): List<Song>
+    @Query("SELECT * FROM Song WHERE name LIKE '%' || :name || '%' OR performer LIKE '%' || :name || '%'")
+    fun getSearchedSongs(name: String): Flow<List<Song>>
 
     @Query("SELECT * FROM PlayerUser WHERE login == (:login)")
     suspend fun getUserByLogin(login: String): PlayerUser

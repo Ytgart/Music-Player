@@ -21,7 +21,8 @@ class PlayerApp : Application() {
                     userRepositoryModule,
                     playerVMModule,
                     spotifyAPIRepositoryModule,
-                    spotifyAPIRequesterModule
+                    spotifyAPIRequesterModule,
+                    songRepositoryModule
                 )
             )
         }

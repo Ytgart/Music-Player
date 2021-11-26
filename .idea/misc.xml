@@ -14,7 +14,7 @@
         <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/fragment_main_screen.xml" value="0.25" />
         <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/fragment_player.xml" value="0.33" />
         <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/fragment_register.xml" value="0.33" />
-        <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/fragment_search.xml" value="0.5" />
+        <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/fragment_search.xml" value="0.33" />
         <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/login_input_field.xml" value="0.24365942028985507" />
         <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/popup_menu.xml" value="0.29483695652173914" />
         <entry key="..\:/Projects/Music-Player/app/src/main/res/layout/song_list_item.xml" value="0.25" />
@@ -24,7 +24,6 @@
         <entry key="..\:/Projects/MusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Axrk3/Desktop/new folder/Music-Player/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Axrk3/Desktop/new folder/Music-Player/app/src/main/res/layout/fragment_register.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Axrk3/Desktop/new folder/Music-Player/app/src/main/res/layout/fragment_search.xml" value="0.4" />
         <entry key="..\:/Users/Axrk3/Desktop/new folder/Music-Player/app/src/main/res/layout/login_input_field.xml" value="0.25416666666666665" />
       </map>
     </option>

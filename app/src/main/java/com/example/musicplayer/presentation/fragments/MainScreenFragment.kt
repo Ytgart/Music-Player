@@ -79,7 +79,7 @@ class MainScreenFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = SongListAdapter()
 
-        playerViewModel.playerDatabase.playerDBDao().getSongsList().observe(viewLifecycleOwner, {
+        playerViewModel.getAllSongs().observe(viewLifecycleOwner, {
             (recyclerView.adapter as SongListAdapter).updateSongList(it)
         })
     }

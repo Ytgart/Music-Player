@@ -33,33 +33,23 @@
             android:id="@+id/searchEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Введите название трека или исполнителя.."
-            android:inputType="text" />
+            android:hint="Трек, исполнитель"
+            android:inputType="text"
+            android:imeOptions="actionDone"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageButton
-        android:id="@+id/menuButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?selectableItemBackground"
-        android:padding="13dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/menu_points"
-        app:layout_constraintBottom_toTopOf="@+id/searchEditTextLayout"
-        app:layout_constraintEnd_toEndOf="@+id/songListRV"
-        tools:ignore="ContentDescription,MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/songListRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottomMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tracksNotFoundText" />
+        app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomMenu"
@@ -76,14 +66,16 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/tracksNotFoundText"
+        android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Начните поиск.."
+        android:fontFamily="sans-serif-black"
+        android:text="Начните вводить запрос.."
+        android:textColor="@color/white"
         android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/searchEditTextLayout"
-        app:layout_constraintStart_toStartOf="@+id/searchEditTextLayout"
+        app:layout_constraintBottom_toTopOf="@+id/bottomMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

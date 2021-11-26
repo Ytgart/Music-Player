@@ -74,10 +74,9 @@ class FavouritesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = SongListAdapter()
 
-        playerViewModel.playerDatabase.playerDBDao().getFavouriteSongsList()
-            .observe(viewLifecycleOwner, {
-                (recyclerView.adapter as SongListAdapter).updateSongList(it)
-            })
+        playerViewModel.getFavouriteSongs().observe(viewLifecycleOwner, {
+            (recyclerView.adapter as SongListAdapter).updateSongList(it)
+        })
     }
 
     private fun configurePopupMenu() {
