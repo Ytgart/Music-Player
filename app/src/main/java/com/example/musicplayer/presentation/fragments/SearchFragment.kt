@@ -7,16 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentSearchBinding
-import com.example.musicplayer.helpers.DialogueWindowManager
 import com.example.musicplayer.helpers.SongListAdapter
 import com.example.musicplayer.helpers.afterTextChanged
-import com.example.musicplayer.presentation.LoginViewModel
 import com.example.musicplayer.presentation.PlayerViewModel
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

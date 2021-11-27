@@ -4,20 +4,39 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
-import com.example.musicplayer.di.playerVMModule
 import com.example.musicplayer.presentation.PlayerViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
 class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
-    private val viewModel: PlayerViewModel by activityViewModels()
+    private val viewModel by sharedViewModel<PlayerViewModel>()
+    private var updateSeekBarJob: Job? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +49,32 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.prepareSong()
+
+        binding.playButton.setOnClickListener {
+            if (viewModel.togglePause()) {
+                binding.playButton.setImageResource(R.drawable.pause_icon)
+            } else {
+                binding.playButton.setImageResource(R.drawable.play_icon)
+            }
+        }
+
         viewModel.currentSongData.observe(viewLifecycleOwner, {
             updateSongUI(it)
         })
 
+        viewModel.isSongPrepared.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.playerElements.visibility = View.VISIBLE
+                setSeekBar()
+            } else {
+                binding.playButton.setImageResource(R.drawable.play_icon)
+            }
+        })
+
         binding.menuButton.setOnClickListener {
+            updateSeekBarJob?.cancel()
+            viewModel.resetPlayer()
             findNavController().navigate(R.id.mainScreenFragment)
         }
     }
@@ -51,5 +91,32 @@ class PlayerFragment : Fragment() {
         Picasso.get()
             .load(newSong.coverURL)
             .into(binding.albumCover)
+    }
+
+    private fun setSeekBar() {
+        binding.seekBar.max = viewModel.getSongDuration()
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                if (p2) {
+                    viewModel.seekInSong(p1)
+                }
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+        })
+
+        updateSeekBarJob = lifecycleScope.launch {
+            while (isActive) {
+                val currentPosition = viewModel.getPlayerPosition()
+                binding.seekBar.progress = currentPosition
+                delay(25)
+            }
+        }
     }
 }

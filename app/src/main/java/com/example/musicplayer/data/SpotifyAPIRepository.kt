@@ -24,6 +24,8 @@ class SpotifyAPIRepository(private val spotifyAPIRequester: SpotifyAPIRequester)
             .getJSONObject(0)
             .getString("url")
 
+        val previewURL = jsonObject.getString("preview_url")
+
         val songName = jsonObject.getString("name")
 
         val performerName = jsonObject
@@ -34,7 +36,7 @@ class SpotifyAPIRepository(private val spotifyAPIRequester: SpotifyAPIRequester)
 
         val duration = jsonObject.getInt("duration_ms")
 
-        return Song(imageURL, songName, performerName, duration)
+        return Song(imageURL, previewURL, songName, performerName, duration)
     }
 
     suspend fun getSongsInfo(id: String, token: String): List<Song>? {
@@ -44,23 +46,18 @@ class SpotifyAPIRepository(private val spotifyAPIRequester: SpotifyAPIRequester)
         val songsJSONObject: JSONObject
         try {
             songsJSONObject =
-                JSONObject(JSONTokener(spotifyAPIRequester.requestSongs(id, token).receive()))
-        } catch (e: ClientRequestException) {
-            return null
-        }
-
-        val albumJsonObject: JSONObject
-        try {
-            albumJsonObject =
                 JSONObject(JSONTokener(spotifyAPIRequester.requestAlbum(id, token).receive()))
         } catch (e: ClientRequestException) {
             return null
         }
 
-        val songsArray = songsJSONObject.getJSONArray("items")
+        val songsArray = songsJSONObject.getJSONObject("tracks").getJSONArray("items")
 
-        for (i in 0 until songsJSONObject.getInt("total")) {
-            val imageURL = albumJsonObject
+        for (i in 0 until songsJSONObject.getInt("total_tracks")) {
+
+            val previewURL = songsArray.getJSONObject(i).getString("preview_url")
+
+            val imageURL = songsJSONObject
                 .getJSONArray("images")
                 .getJSONObject(0)
                 .getString("url")
@@ -74,7 +71,7 @@ class SpotifyAPIRepository(private val spotifyAPIRequester: SpotifyAPIRequester)
 
             val duration = songsArray.getJSONObject(i).getInt("duration_ms")
 
-            songs.add(Song(imageURL, songName, performerName, duration))
+            songs.add(Song(imageURL, previewURL, songName, performerName, duration))
         }
         return songs
     }

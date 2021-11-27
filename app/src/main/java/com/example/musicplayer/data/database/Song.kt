@@ -11,6 +11,8 @@ data class Song(
     val id: Int,
     @ColumnInfo(name = "coverPath")
     val coverURL: String,
+    @ColumnInfo(name = "previewURL")
+    val previewURL: String,
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "performer")
@@ -21,9 +23,16 @@ data class Song(
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean = false
 ) {
-    constructor(coverURL: String, name: String, performer: String, duration: Int) : this(
+    constructor(
+        coverURL: String,
+        previewURL: String,
+        name: String,
+        performer: String,
+        duration: Int
+    ) : this(
         0,
         coverURL,
+        previewURL,
         name,
         performer,
         duration,

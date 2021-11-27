@@ -20,17 +20,6 @@ class SpotifyAPIRequester {
         }
     }
 
-    suspend fun requestSongs(id: String, token: String): HttpResponse {
-        return client.get("https://api.spotify.com/v1/albums/$id/tracks") {
-            headers {
-                append(
-                    HttpHeaders.Authorization,
-                    "Bearer $token"
-                )
-            }
-        }
-    }
-
     suspend fun requestAlbum(id: String, token: String): HttpResponse {
         return client.get("https://api.spotify.com/v1/albums/$id") {
             headers {

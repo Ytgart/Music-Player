@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,122 +12,156 @@
         android:id="@+id/menuButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="40dp"
         android:background="?selectableItemBackground"
         android:padding="13dp"
         android:scaleType="fitCenter"
         android:src="@drawable/close_icon"
+        app:layout_constraintBottom_toTopOf="@+id/playerElements"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.60"
         tools:ignore="ContentDescription,MissingConstraints" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/albumCardView"
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:strokeColor="@color/text_color_selector"
-        app:strokeWidth="1dp">
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/albumCover"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:src="@drawable/close_icon"
-            tools:ignore="ContentDescription" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <TextView
-        android:id="@+id/songName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="40dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/song"
-        android:textColor="@color/text_color_selector"
-        android:textSize="21sp" />
-
-    <TextView
-        android:id="@+id/performerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="21dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/performer"
-        android:textSize="17sp" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playerElements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="20dp"
-        android:progressTint="@color/text_color_selector"
-        android:thumbTint="@color/text_color_selector" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/albumCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/text_color_selector"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:id="@+id/albumCover"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                android:src="@drawable/close_icon"
+                tools:ignore="ContentDescription" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/songName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="60dp"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/song"
+            android:textColor="@color/text_color_selector"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/albumCardView"
+            app:layout_constraintTop_toBottomOf="@+id/albumCardView" />
+
+        <TextView
+            android:id="@+id/performerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/performer"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/albumCardView"
+            app:layout_constraintTop_toBottomOf="@+id/songName" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:progressTint="@color/text_color_selector"
+            android:thumbOffset="3dp"
+            android:thumbTint="@color/text_color_selector"
+            app:layout_constraintEnd_toEndOf="@+id/albumCardView"
+            app:layout_constraintStart_toStartOf="@+id/albumCardView"
+            app:layout_constraintTop_toBottomOf="@+id/performerText"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/timeCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="306dp"
+            android:layout_marginTop="-3dp"
             android:text="0:00"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/seekBar"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
         <TextView
             android:id="@+id/timeFull"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-3dp"
             android:text="@string/_4_10"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/playerBlock"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/seekBar"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
         <ImageButton
             android:id="@+id/previousButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="35dp"
             android:background="?selectableItemBackground"
             android:padding="12dp"
             android:scaleType="fitXY"
             android:src="@drawable/next_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/playButton"
+            app:layout_constraintEnd_toStartOf="@+id/playButton"
+            app:layout_constraintTop_toTopOf="@+id/playButton"
             tools:ignore="ContentDescription" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/playButton"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:background="?selectableItemBackground"
-            android:scaleType="fitXY"
+            android:layout_marginTop="10dp"
             android:src="@drawable/play_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
             tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/nextButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="35dp"
             android:background="?selectableItemBackground"
             android:padding="12dp"
             android:scaleType="fitXY"
             android:scaleX="-1"
             android:src="@drawable/next_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/playButton"
+            app:layout_constraintStart_toEndOf="@+id/playButton"
+            app:layout_constraintTop_toTopOf="@+id/playButton"
             tools:ignore="ContentDescription" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
