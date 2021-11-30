@@ -14,9 +14,10 @@
         android:gravity="center"
         android:text="@string/collection_string"
         android:textColor="@color/text_color_selector"
-        android:textSize="25sp"
+        android:textSize="25dp"
         app:layout_constraintStart_toStartOf="@+id/songListRV"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpUsage" />
 
     <ImageButton
         android:id="@+id/menuButton"
@@ -34,8 +35,8 @@
         android:id="@+id/songListRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottomMenu"
         app:layout_constraintEnd_toEndOf="parent"

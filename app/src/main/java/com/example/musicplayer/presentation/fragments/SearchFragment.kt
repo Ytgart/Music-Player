@@ -94,7 +94,7 @@ class SearchFragment : Fragment() {
         playerViewModel.searchForSongs(query).observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 binding.statusTextView.visibility = View.VISIBLE
-                binding.statusTextView.text = "Ничего не найдено"
+                binding.statusTextView.text = getString(R.string.nothing_found_string)
             } else {
                 binding.statusTextView.visibility = View.INVISIBLE
             }
@@ -105,7 +105,7 @@ class SearchFragment : Fragment() {
     private fun discardSearch() {
         binding.searchEditTextLayout.clearFocus()
         binding.statusTextView.visibility = View.VISIBLE
-        binding.statusTextView.text = "Начните вводить запрос.."
+        binding.statusTextView.text = getString(R.string.start_typing_string)
         binding.searchEditText.setText("")
         rvAdapter.updateSongList(listOf())
     }

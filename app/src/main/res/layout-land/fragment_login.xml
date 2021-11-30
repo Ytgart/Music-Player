@@ -15,10 +15,11 @@
         android:text="@string/changeModeButton1"
         android:textAlignment="center"
         android:textColor="@color/text_color_selector"
-        android:textSize="36sp"
+        android:textSize="36dp"
         app:layout_constraintBottom_toTopOf="@+id/loginInputLayout"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="50dp" />
+        tools:layout_editor_absoluteX="50dp"
+        tools:ignore="SpUsage" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginInputLayout"

@@ -36,19 +36,15 @@ class PlayerViewModel(
 
     fun addSong(id: String, token: String) {
         viewModelScope.launch {
-            val songInfo = spotifyAPIRepository.getSongInfo(id, token)
-            if (songInfo != null) {
-                songRepository.addSong(songInfo)
-            }
-        }
-    }
-
-    fun addAlbum(id: String, token: String) {
-        viewModelScope.launch {
-            val songsInfo = spotifyAPIRepository.getSongsInfo(id, token)
-            if (songsInfo != null) {
-                songRepository.addSongs(songsInfo)
-            }
+            val songInfo = spotifyAPIRepository.getSong(id, token)
+            val newSong = Song(
+                songInfo.album.images[0].url,
+                songInfo.previewURL,
+                songInfo.name,
+                songInfo.artists[0].name,
+                songInfo.durationMS
+            )
+            songRepository.addSong(newSong)
         }
     }
 

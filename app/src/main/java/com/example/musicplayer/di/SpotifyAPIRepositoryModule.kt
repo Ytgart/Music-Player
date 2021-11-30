@@ -4,5 +4,5 @@ import com.example.musicplayer.data.SpotifyAPIRepository
 import org.koin.dsl.module
 
 val spotifyAPIRepositoryModule = module {
-    single { SpotifyAPIRepository(get()) }
+    single { SpotifyAPIRepository() }
 }

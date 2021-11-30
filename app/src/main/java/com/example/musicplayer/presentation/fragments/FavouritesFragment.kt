@@ -21,7 +21,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class FavouritesFragment : Fragment() {
     private lateinit var binding: FragmentFavouritesBinding
-    private val loginViewModel by sharedViewModel<LoginViewModel>()
     private val playerViewModel by sharedViewModel<PlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +66,6 @@ class FavouritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configurePopupMenu()
         configureNavigationMenu()
 
         val recyclerView = binding.songListRV
@@ -79,24 +77,6 @@ class FavouritesFragment : Fragment() {
         })
     }
 
-    private fun configurePopupMenu() {
-        val popupMenu = PopupMenu(requireContext(), binding.menuButton)
-        popupMenu.inflate(R.menu.player_popup)
-
-        binding.menuButton.setOnClickListener {
-            popupMenu.show()
-        }
-
-        popupMenu.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.exit -> {
-                    loginViewModel.loginStateRepository.saveLoginState(false)
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_loginFragment)
-                }
-            }
-            false
-        }
-    }
 
     private fun configureNavigationMenu() {
         binding.bottomMenu.setOnItemSelectedListener {
