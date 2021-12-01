@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
+import com.example.musicplayer.domain.PlayerState
 import com.example.musicplayer.presentation.PlayerViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Job
@@ -25,6 +26,7 @@ class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
     private val viewModel by sharedViewModel<PlayerViewModel>()
     private var updateSeekBarJob: Job? = null
+    private var isSeekBarDirty = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,7 @@ class PlayerFragment : Fragment() {
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-
+                    resetPlayer()
                 }
             })
     }
@@ -49,33 +51,51 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.prepareSong()
-
         binding.playButton.setOnClickListener {
-            if (viewModel.togglePause()) {
-                binding.playButton.setImageResource(R.drawable.pause_icon)
-            } else {
-                binding.playButton.setImageResource(R.drawable.play_icon)
-            }
+            viewModel.togglePause()
         }
 
         viewModel.currentSongData.observe(viewLifecycleOwner, {
             updateSongUI(it)
         })
 
-        viewModel.isSongPrepared.observe(viewLifecycleOwner, {
-            if (it) {
-                binding.playerElements.visibility = View.VISIBLE
-                setSeekBar()
-            } else {
-                binding.playButton.setImageResource(R.drawable.play_icon)
+        viewModel.playerState.observe(viewLifecycleOwner, {
+            when (it) {
+                PlayerState.NOT_PREPARED -> viewModel.prepareSong()
+                PlayerState.PREPARED -> {
+                    setupPlayerState(R.drawable.play_icon)
+                }
+                PlayerState.ENDED -> {
+                    setupPlayerState(R.drawable.play_icon)
+                }
+                PlayerState.PLAYING -> {
+                    setupPlayerState(R.drawable.pause_icon)
+                }
+                PlayerState.PAUSED -> {
+                    setupPlayerState(R.drawable.play_icon)
+                }
+                else -> {}
             }
         })
 
         binding.menuButton.setOnClickListener {
-            updateSeekBarJob?.cancel()
-            viewModel.resetPlayer()
-            findNavController().navigate(R.id.mainScreenFragment)
+            resetPlayer()
+        }
+    }
+
+    private fun resetPlayer() {
+        updateSeekBarJob?.cancel()
+        viewModel.playerState.removeObservers(viewLifecycleOwner)
+        viewModel.resetPlayer()
+        findNavController().navigate(R.id.mainScreenFragment)
+    }
+
+    private fun setupPlayerState(icon: Int) {
+        binding.playButton.setImageResource(icon)
+        binding.playerElements.visibility = View.VISIBLE
+        if (isSeekBarDirty) {
+            setSeekBar()
+            isSeekBarDirty = false
         }
     }
 

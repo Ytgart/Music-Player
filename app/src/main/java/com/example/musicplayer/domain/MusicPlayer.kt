@@ -4,9 +4,17 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.lifecycle.MutableLiveData
 
+enum class PlayerState {
+    NOT_PREPARED,
+    PREPARED,
+    PLAYING,
+    PAUSED,
+    ENDED
+}
+
 class MusicPlayer {
     private val mediaPlayer: MediaPlayer = MediaPlayer()
-    val isPrepared = MutableLiveData(false)
+    val playerState = MutableLiveData(PlayerState.NOT_PREPARED)
 
     init {
         setup()
@@ -20,9 +28,11 @@ class MusicPlayer {
     fun togglePause(): Boolean {
         return if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
+            playerState.postValue(PlayerState.PAUSED)
             false
         } else {
             mediaPlayer.start()
+            playerState.postValue(PlayerState.PLAYING)
             true
         }
     }
@@ -35,7 +45,10 @@ class MusicPlayer {
 
     fun getFileDuration() = mediaPlayer.duration
 
-    fun resetPlayer() = mediaPlayer.reset()
+    fun resetPlayer() {
+        mediaPlayer.reset()
+        playerState.postValue(PlayerState.NOT_PREPARED)
+    }
 
     private fun setup() {
         mediaPlayer.apply {
@@ -47,11 +60,10 @@ class MusicPlayer {
             )
         }
         mediaPlayer.setOnPreparedListener {
-            isPrepared.postValue(true)
+            playerState.postValue(PlayerState.PREPARED)
         }
-
         mediaPlayer.setOnCompletionListener {
-            isPrepared.postValue(false)
+            playerState.postValue(PlayerState.ENDED)
         }
     }
 }

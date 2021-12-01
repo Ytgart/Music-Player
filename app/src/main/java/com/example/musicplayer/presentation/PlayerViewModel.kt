@@ -8,6 +8,7 @@ import com.example.musicplayer.data.SongRepository
 import com.example.musicplayer.data.SpotifyAPIRepository
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.domain.MusicPlayer
+import com.example.musicplayer.domain.PlayerState
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
@@ -23,8 +24,8 @@ class PlayerViewModel(
     val currentMenuItem: LiveData<Int>
         get() = _currentMenuItem
 
-    val isSongPrepared: LiveData<Boolean>
-        get() = musicPlayer.isPrepared
+    val playerState: LiveData<PlayerState>
+        get() = musicPlayer.playerState
 
     fun setCurrentSong(newSong: Song) = _currentSongData.postValue(newSong)
 
