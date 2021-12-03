@@ -8,14 +8,13 @@ import com.example.musicplayer.data.LoginStateRepository
 import com.example.musicplayer.data.PlayerUserRepository
 import com.example.musicplayer.data.database.PlayerUser
 import com.example.musicplayer.helpers.UserDataValidator
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val userRepository: PlayerUserRepository,
     val loginStateRepository: LoginStateRepository,
-    val validator: UserDataValidator
+    val validator: UserDataValidator = UserDataValidator()
 ) : ViewModel() {
 
     private val _isLoginSuccessful = MutableLiveData(false)

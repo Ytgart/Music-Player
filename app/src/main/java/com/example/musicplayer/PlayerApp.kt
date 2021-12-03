@@ -16,7 +16,6 @@ class PlayerApp : Application() {
                     dataBaseModule,
                     loginStateModule,
                     loginVMModule,
-                    validatorModule,
                     userRepositoryModule,
                     playerVMModule,
                     spotifyAPIRepositoryModule,

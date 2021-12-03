@@ -20,10 +20,6 @@ class PlayerViewModel(
     val currentSongData: LiveData<Song>
         get() = _currentSongData
 
-    private val _currentMenuItem = MutableLiveData<Int>()
-    val currentMenuItem: LiveData<Int>
-        get() = _currentMenuItem
-
     val playerState: LiveData<PlayerState>
         get() = musicPlayer.playerState
 
@@ -74,6 +70,4 @@ class PlayerViewModel(
     fun getSongDuration() = musicPlayer.getFileDuration()
 
     fun resetPlayer() = musicPlayer.resetPlayer()
-
-    fun setCurrentMenuItem(id: Int) = _currentMenuItem.postValue(id)
 }

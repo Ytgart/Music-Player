@@ -46,8 +46,10 @@ class MusicPlayer {
     fun getFileDuration() = mediaPlayer.duration
 
     fun resetPlayer() {
-        mediaPlayer.reset()
-        playerState.postValue(PlayerState.NOT_PREPARED)
+        if (playerState.value != PlayerState.NOT_PREPARED) {
+            mediaPlayer.reset()
+            playerState.postValue(PlayerState.NOT_PREPARED)
+        }
     }
 
     private fun setup() {

@@ -61,19 +61,12 @@ class MainScreenFragment : Fragment() {
             }
             return binding.root
         }
-
-        binding.bottomMenu.applyInsetter {
-            type(navigationBars = true) {
-                margin()
-            }
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configurePopupMenu()
-        configureNavigationMenu()
 
         val recyclerView = binding.songListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -81,26 +74,6 @@ class MainScreenFragment : Fragment() {
 
         playerViewModel.getAllSongs().observe(viewLifecycleOwner, {
             (recyclerView.adapter as SongListAdapter).updateSongList(it)
-        })
-    }
-
-    private fun configureNavigationMenu() {
-        binding.bottomMenu.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.page_2 -> {
-                    playerViewModel.setCurrentMenuItem(R.id.page_2)
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_searchFragment)
-                }
-                R.id.page_3 -> {
-                    playerViewModel.setCurrentMenuItem(R.id.page_3)
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_favouritesFragment)
-                }
-            }
-            false
-        }
-
-        playerViewModel.currentMenuItem.observe(viewLifecycleOwner, {
-            binding.bottomMenu.menu.findItem(it).isChecked = true
         })
     }
 

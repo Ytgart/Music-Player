@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentSearchBinding
@@ -22,18 +21,6 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val playerViewModel by sharedViewModel<PlayerViewModel>()
     private val rvAdapter = SongListAdapter()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    discardSearch()
-                }
-            })
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,18 +42,11 @@ class SearchFragment : Fragment() {
             }
             return binding.root
         }
-
-        binding.bottomMenu.applyInsetter {
-            type(navigationBars = true) {
-                margin()
-            }
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureNavigationMenu()
 
         val recyclerView = binding.songListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -108,25 +88,5 @@ class SearchFragment : Fragment() {
         binding.statusTextView.text = getString(R.string.start_typing_string)
         binding.searchEditText.setText("")
         rvAdapter.updateSongList(listOf())
-    }
-
-    private fun configureNavigationMenu() {
-        binding.bottomMenu.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.page_1 -> {
-                    playerViewModel.setCurrentMenuItem(R.id.page_1)
-                    findNavController().navigate(R.id.action_searchFragment_to_mainScreenFragment)
-                }
-                R.id.page_3 -> {
-                    playerViewModel.setCurrentMenuItem(R.id.page_3)
-                    findNavController().navigate(R.id.action_searchFragment_to_favouritesFragment)
-                }
-            }
-            false
-        }
-
-        playerViewModel.currentMenuItem.observe(viewLifecycleOwner, {
-            binding.bottomMenu.menu.findItem(it).isChecked = true
-        })
     }
 }

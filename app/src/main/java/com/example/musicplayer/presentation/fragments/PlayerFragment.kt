@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,6 +12,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
 import com.example.musicplayer.domain.PlayerState
+import com.example.musicplayer.presentation.MainActivity
 import com.example.musicplayer.presentation.PlayerViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Job
@@ -27,18 +27,6 @@ class PlayerFragment : Fragment() {
     private val viewModel by sharedViewModel<PlayerViewModel>()
     private var updateSeekBarJob: Job? = null
     private var isSeekBarDirty = true
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    resetPlayer()
-                }
-            })
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,12 +62,13 @@ class PlayerFragment : Fragment() {
                 PlayerState.PAUSED -> {
                     setupPlayerState(R.drawable.play_icon)
                 }
-                else -> {}
+                else -> {
+                }
             }
         })
 
         binding.menuButton.setOnClickListener {
-            resetPlayer()
+            (requireActivity() as MainActivity).onBackPressed()
         }
     }
 
@@ -87,7 +76,7 @@ class PlayerFragment : Fragment() {
         updateSeekBarJob?.cancel()
         viewModel.playerState.removeObservers(viewLifecycleOwner)
         viewModel.resetPlayer()
-        findNavController().navigate(R.id.mainScreenFragment)
+        findNavController().popBackStack()
     }
 
     private fun setupPlayerState(icon: Int) {

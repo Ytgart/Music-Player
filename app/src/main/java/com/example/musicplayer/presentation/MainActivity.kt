@@ -1,6 +1,7 @@
 package com.example.musicplayer.presentation
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
@@ -30,5 +31,45 @@ class MainActivity : AppCompatActivity() {
         if (!loginViewModel.loginStateRepository.isLogged()) {
             navController.navigate(R.id.action_mainScreenFragment_to_loginFragment)
         }
+
+        binding.navigationMenu.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.page_1 -> {
+                    navController.navigate(R.id.mainScreenFragment)
+                    true
+                }
+                R.id.page_2 -> {
+                    navController.navigate(R.id.searchFragment)
+                    true
+                }
+                R.id.page_3 -> {
+                    navController.navigate(R.id.favouritesFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.playerFragment) {
+                binding.navigationMenu.visibility = View.GONE
+            } else if (binding.navigationMenu.visibility != View.VISIBLE) {
+                binding.navigationMenu.visibility = View.VISIBLE
+            }
+
+            when (destination.id) {
+                R.id.mainScreenFragment -> binding.navigationMenu.menu
+                    .getItem(0).isChecked = true
+                R.id.searchFragment -> binding.navigationMenu.menu
+                    .getItem(1).isChecked = true
+                R.id.favouritesFragment -> binding.navigationMenu.menu
+                    .getItem(2).isChecked = true
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        playerViewModel.resetPlayer()
     }
 }
