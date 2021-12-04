@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@android:drawable/ic_delete"
+        android:id="@+id/openFile"
         android:title="@string/open_file_menu_string" />
     <item
         android:id="@+id/getSongFromAPI"

@@ -54,12 +54,12 @@ class RegisterFragment : Fragment() {
                     binding.passwordEditText.text.toString()
                 )
                 loginViewModel.registerUser(data)
-                findNavController().navigate(R.id.action_registerFragment_to_mainScreenFragment)
+                findNavController().navigate(R.id.mainScreenFragment)
             }
         }
 
         binding.newAccountButton.setOnClickListener {
-            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            findNavController().navigate(R.id.loginFragment)
         }
 
         binding.registerCheckBox.setOnClickListener {

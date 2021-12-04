@@ -15,8 +15,7 @@
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription"
-        tools:srcCompat="@drawable/cover1" />
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/name"
@@ -46,12 +45,25 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="?selectableItemBackground"
-        android:paddingHorizontal="15dp"
+        android:paddingHorizontal="16dp"
         android:scaleType="fitCenter"
         android:src="@drawable/heart"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/menuButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        tools:ignore="ContentDescription,MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/menu_points"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

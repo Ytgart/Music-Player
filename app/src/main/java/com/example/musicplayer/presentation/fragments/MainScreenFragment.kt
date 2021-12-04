@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +71,7 @@ class MainScreenFragment : Fragment() {
 
         val recyclerView = binding.songListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = SongListAdapter()
+        recyclerView.adapter = SongListAdapter(this)
 
         playerViewModel.getAllSongs().observe(viewLifecycleOwner, {
             (recyclerView.adapter as SongListAdapter).updateSongList(it)
@@ -80,6 +81,7 @@ class MainScreenFragment : Fragment() {
     private fun configurePopupMenu() {
         val popupMenu = PopupMenu(requireContext(), binding.menuButton)
         popupMenu.inflate(R.menu.player_popup)
+        popupMenu.gravity = Gravity.END
 
         binding.menuButton.setOnClickListener {
             popupMenu.show()
@@ -89,7 +91,7 @@ class MainScreenFragment : Fragment() {
             when (it.itemId) {
                 R.id.exit -> {
                     loginViewModel.loginStateRepository.saveLoginState(false)
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_loginFragment)
+                    findNavController().navigate(R.id.loginFragment)
                 }
                 R.id.getSongFromAPI -> {
                     showEnterIDDialogue(requireContext())

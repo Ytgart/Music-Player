@@ -29,21 +29,27 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         if (!loginViewModel.loginStateRepository.isLogged()) {
-            navController.navigate(R.id.action_mainScreenFragment_to_loginFragment)
+            navController.navigate(R.id.loginFragment)
         }
 
         binding.navigationMenu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.page_1 -> {
-                    navController.navigate(R.id.mainScreenFragment)
+                    if (navController.currentDestination?.id != R.id.mainScreenFragment) {
+                        navController.navigate(R.id.mainScreenFragment)
+                    }
                     true
                 }
                 R.id.page_2 -> {
-                    navController.navigate(R.id.searchFragment)
+                    if (navController.currentDestination?.id != R.id.searchFragment) {
+                        navController.navigate(R.id.searchFragment)
+                    }
                     true
                 }
                 R.id.page_3 -> {
-                    navController.navigate(R.id.favouritesFragment)
+                    if (navController.currentDestination?.id != R.id.favouritesFragment) {
+                        navController.navigate(R.id.favouritesFragment)
+                    }
                     true
                 }
                 else -> false

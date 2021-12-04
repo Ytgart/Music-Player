@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
@@ -20,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val playerViewModel by sharedViewModel<PlayerViewModel>()
-    private val rvAdapter = SongListAdapter()
+    private lateinit var rvAdapter: SongListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +46,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val recyclerView = binding.songListRV
+
+        rvAdapter = SongListAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = rvAdapter
 

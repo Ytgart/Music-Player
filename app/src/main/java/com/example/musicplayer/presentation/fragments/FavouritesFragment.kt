@@ -47,7 +47,7 @@ class FavouritesFragment : Fragment() {
 
         val recyclerView = binding.songListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = SongListAdapter()
+        recyclerView.adapter = SongListAdapter(this)
 
         playerViewModel.getFavouriteSongs().observe(viewLifecycleOwner, {
             (recyclerView.adapter as SongListAdapter).updateSongList(it)

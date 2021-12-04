@@ -81,7 +81,7 @@ class LoginFragment() : Fragment() {
         })
 
         binding.newAccountButton.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_registerFragment)
+            navController.navigate(R.id.registerFragment)
         }
     }
 }
