@@ -8,20 +8,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentLoginBinding
 import com.example.musicplayer.helpers.DialogueWindowManager
+import com.example.musicplayer.presentation.LoginResponse
 import com.example.musicplayer.presentation.LoginViewModel
+import com.example.musicplayer.presentation.MainActivity
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LoginFragment() : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val loginViewModel by sharedViewModel<LoginViewModel>()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        navController = (activity as MainActivity).navController
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -51,32 +55,33 @@ class LoginFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var isShowToast = false
-
         binding.loginButton.setOnClickListener {
             loginViewModel.tryLoginUser(
                 binding.loginEditText.text.toString(),
                 binding.passwordEditText.text.toString()
             )
-            if (!isShowToast) isShowToast = true
         }
 
         loginViewModel.isLoginSuccessful.observe(viewLifecycleOwner, {
-            if (it) {
-                findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
-            } else {
-                if (isShowToast) {
+            when (it) {
+                LoginResponse.SUCCESSFUL -> {
+                    loginViewModel.resetLoginResponse()
+                    navController.navigate(R.id.mainScreenFragment)
+                }
+                LoginResponse.NOT_SUCCESSFUL -> {
                     Toast.makeText(
                         requireContext(),
                         getString(R.string.incorrect_login_or_password_alert),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                else -> {
+                }
             }
         })
 
         binding.newAccountButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 }

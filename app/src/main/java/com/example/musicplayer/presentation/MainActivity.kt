@@ -51,7 +51,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.playerFragment) {
+            if (destination.id == R.id.playerFragment ||
+                destination.id == R.id.loginFragment ||
+                destination.id == R.id.registerFragment
+            ) {
                 binding.navigationMenu.visibility = View.GONE
             } else if (binding.navigationMenu.visibility != View.VISIBLE) {
                 binding.navigationMenu.visibility = View.VISIBLE
