@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.data.database.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
 import com.example.musicplayer.domain.PlayerState
-import com.example.musicplayer.presentation.MainActivity
 import com.example.musicplayer.presentation.PlayerViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Job
@@ -26,6 +24,7 @@ class PlayerFragment : Fragment() {
     private lateinit var binding: FragmentPlayerBinding
     private val viewModel by sharedViewModel<PlayerViewModel>()
     private var updateSeekBarJob: Job? = null
+    private var updateCurrentTimeJob: Job? = null
     private var isSeekBarDirty = true
 
     override fun onCreateView(
@@ -49,7 +48,12 @@ class PlayerFragment : Fragment() {
 
         viewModel.playerState.observe(viewLifecycleOwner, {
             when (it) {
-                PlayerState.NOT_PREPARED -> viewModel.prepareSong()
+                PlayerState.NOT_PREPARED -> {
+                    updateSeekBarJob?.cancel()
+                    updateCurrentTimeJob?.cancel()
+                    binding.playerElements.visibility = View.INVISIBLE
+                    viewModel.prepareSong()
+                }
                 PlayerState.PREPARED -> {
                     setupPlayerState(R.drawable.play_icon)
                 }
@@ -68,15 +72,8 @@ class PlayerFragment : Fragment() {
         })
 
         binding.menuButton.setOnClickListener {
-            (requireActivity() as MainActivity).onBackPressed()
+            requireActivity().onBackPressed()
         }
-    }
-
-    private fun resetPlayer() {
-        updateSeekBarJob?.cancel()
-        viewModel.playerState.removeObservers(viewLifecycleOwner)
-        viewModel.resetPlayer()
-        findNavController().popBackStack()
     }
 
     private fun setupPlayerState(icon: Int) {
@@ -125,6 +122,19 @@ class PlayerFragment : Fragment() {
                 val currentPosition = viewModel.getPlayerPosition()
                 binding.seekBar.progress = currentPosition
                 delay(25)
+            }
+        }
+
+        updateCurrentTimeJob = lifecycleScope.launch {
+            while (isActive) {
+                val currentPosition = viewModel.getPlayerPosition()
+                val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(currentPosition.toLong()) % 60
+                val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(currentPosition.toLong()) % 60
+
+                binding.timeCurrent.text =
+                    String.format("%d:%02d", durationMinutes, durationSeconds)
+
+                delay(1000)
             }
         }
     }

@@ -31,17 +31,19 @@ class PlayerViewModel(
 
     fun searchForSongs(queryString: String) = songRepository.findSongs(queryString)
 
-    fun addSong(id: String, token: String) {
+    fun addSongFromSpotifyAPI(id: String, token: String) {
         viewModelScope.launch {
             val songInfo = spotifyAPIRepository.getSong(id, token)
-            val newSong = Song(
-                songInfo.album.images[0].url,
-                songInfo.previewURL,
-                songInfo.name,
-                songInfo.artists[0].name,
-                songInfo.durationMS
-            )
-            songRepository.addSong(newSong)
+            if (songInfo != null) {
+                val newSong = Song(
+                    songInfo.album.images[0].url,
+                    songInfo.previewURL,
+                    songInfo.name,
+                    songInfo.artists[0].name,
+                    29000
+                )
+                songRepository.addSong(newSong)
+            }
         }
     }
 

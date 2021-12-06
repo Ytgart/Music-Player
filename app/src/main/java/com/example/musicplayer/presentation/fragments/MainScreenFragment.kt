@@ -76,6 +76,11 @@ class MainScreenFragment : Fragment() {
         playerViewModel.getAllSongs().observe(viewLifecycleOwner, {
             (recyclerView.adapter as SongListAdapter).updateSongList(it)
         })
+
+        binding.exitButton.setOnClickListener {
+            loginViewModel.loginStateRepository.saveLoginState(false)
+            findNavController().navigate(R.id.loginFragment)
+        }
     }
 
     private fun configurePopupMenu() {
@@ -89,10 +94,6 @@ class MainScreenFragment : Fragment() {
 
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.exit -> {
-                    loginViewModel.loginStateRepository.saveLoginState(false)
-                    findNavController().navigate(R.id.loginFragment)
-                }
                 R.id.getSongFromAPI -> {
                     showEnterIDDialogue(requireContext())
                 }
@@ -121,7 +122,7 @@ class MainScreenFragment : Fragment() {
 
         builder.setTitle("Добавить трек по ID")
         builder.setPositiveButton("Ок") { _, _ ->
-            playerViewModel.addSong(input.text.toString(), input2.text.toString())
+            playerViewModel.addSongFromSpotifyAPI(input.text.toString(), input2.text.toString())
         }
         builder.create()
         builder.show()

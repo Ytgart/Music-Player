@@ -8,8 +8,4 @@
         android:id="@+id/getSongFromAPI"
         android:title="@string/get_song_from_api_string" />
 
-    <item
-        android:id="@+id/exit"
-        android:title="@string/exit_from_account_menu_string" />
-
 </menu>
