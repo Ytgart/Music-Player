@@ -1,6 +1,6 @@
 package com.example.musicplayer.di
 
-import com.example.musicplayer.data.SpotifyAPIRepository
+import com.example.musicplayer.data.remote.SpotifyAPIRepository
 import org.koin.dsl.module
 
 val spotifyAPIRepositoryModule = module {

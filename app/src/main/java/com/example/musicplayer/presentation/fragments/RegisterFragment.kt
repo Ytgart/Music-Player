@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
-import com.example.musicplayer.data.database.PlayerUser
+import com.example.musicplayer.data.db.PlayerUser
 import com.example.musicplayer.databinding.FragmentRegisterBinding
 import com.example.musicplayer.presentation.LoginViewModel
 import dev.chrisbanes.insetter.applyInsetter

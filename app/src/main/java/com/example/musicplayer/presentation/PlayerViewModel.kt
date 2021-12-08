@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicplayer.data.SongRepository
-import com.example.musicplayer.data.SpotifyAPIRepository
-import com.example.musicplayer.data.database.Song
+import com.example.musicplayer.data.db.SongRepository
+import com.example.musicplayer.data.remote.SpotifyAPIRepository
+import com.example.musicplayer.data.db.Song
 import com.example.musicplayer.domain.MusicPlayer
 import com.example.musicplayer.domain.PlayerState
 import kotlinx.coroutines.launch

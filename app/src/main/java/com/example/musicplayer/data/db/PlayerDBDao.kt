@@ -1,4 +1,4 @@
-package com.example.musicplayer.data.database
+package com.example.musicplayer.data.db
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -8,7 +8,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.musicplayer.R
-import com.example.musicplayer.data.database.Song
+import com.example.musicplayer.data.db.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
 import com.example.musicplayer.domain.PlayerState
 import com.example.musicplayer.presentation.PlayerViewModel

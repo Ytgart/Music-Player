@@ -1,7 +1,7 @@
-package com.example.musicplayer.data
+package com.example.musicplayer.data.db
 
-import com.example.musicplayer.data.database.PlayerDatabase
-import com.example.musicplayer.data.database.PlayerUser
+import com.example.musicplayer.data.db.PlayerDatabase
+import com.example.musicplayer.data.db.PlayerUser
 
 class PlayerUserRepository(private val database: PlayerDatabase) {
 

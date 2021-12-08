@@ -11,7 +11,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
-import com.example.musicplayer.data.database.Song
+import com.example.musicplayer.data.db.Song
 import com.example.musicplayer.databinding.SongListItemBinding
 import com.example.musicplayer.presentation.MainActivity
 import com.squareup.picasso.Picasso

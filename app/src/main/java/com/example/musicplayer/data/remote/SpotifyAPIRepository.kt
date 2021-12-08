@@ -1,4 +1,4 @@
-package com.example.musicplayer.data
+package com.example.musicplayer.data.remote
 
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException

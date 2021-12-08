@@ -1,4 +1,4 @@
-package com.example.musicplayer.data.database
+package com.example.musicplayer.data.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

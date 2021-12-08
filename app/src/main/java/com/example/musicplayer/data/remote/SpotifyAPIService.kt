@@ -1,4 +1,4 @@
-package com.example.musicplayer.data
+package com.example.musicplayer.data.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Header

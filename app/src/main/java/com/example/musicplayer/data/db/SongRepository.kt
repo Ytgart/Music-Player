@@ -1,8 +1,8 @@
-package com.example.musicplayer.data
+package com.example.musicplayer.data.db
 
 import androidx.lifecycle.asLiveData
-import com.example.musicplayer.data.database.PlayerDatabase
-import com.example.musicplayer.data.database.Song
+import com.example.musicplayer.data.db.PlayerDatabase
+import com.example.musicplayer.data.db.Song
 
 class SongRepository(private val playerDatabase: PlayerDatabase) {
 

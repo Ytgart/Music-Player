@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicplayer.data.LoginStateRepository
-import com.example.musicplayer.data.PlayerUserRepository
-import com.example.musicplayer.data.database.PlayerUser
+import com.example.musicplayer.data.preferences.LoginStateRepository
+import com.example.musicplayer.data.db.PlayerUserRepository
+import com.example.musicplayer.data.db.PlayerUser
 import com.example.musicplayer.helpers.UserDataValidator
 import kotlinx.coroutines.launch
 

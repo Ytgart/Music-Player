@@ -1,7 +1,7 @@
 package com.example.musicplayer.helpers
 
 import android.text.TextUtils
-import com.example.musicplayer.data.database.PlayerUser
+import com.example.musicplayer.data.db.PlayerUser
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
