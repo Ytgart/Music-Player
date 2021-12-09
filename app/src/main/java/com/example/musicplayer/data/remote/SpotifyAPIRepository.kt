@@ -1,11 +1,13 @@
 package com.example.musicplayer.data.remote
 
+import com.example.musicplayer.domain.entities.Track
+import com.example.musicplayer.domain.interfaces.ISpotifyAPIRepository
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class SpotifyAPIRepository {
+class SpotifyAPIRepository : ISpotifyAPIRepository {
     private val moshi = Moshi.Builder()
         .build()
 
@@ -16,9 +18,9 @@ class SpotifyAPIRepository {
 
     private val requester = retrofit.create(SpotifyAPIService::class.java)
 
-    suspend fun getSong(id: String, token: String): SpotifySongResponseModel? {
+    override suspend fun getTrack(id: String, token: String): Track? {
         return try {
-            requester.getSingleSong(id, "Bearer $token")
+            requester.getSingleSong(id, "Bearer $token").toTrack()
         } catch (exception: HttpException) {
             null
         }

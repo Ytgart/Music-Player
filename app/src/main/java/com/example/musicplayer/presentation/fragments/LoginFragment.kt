@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentLoginBinding
-import com.example.musicplayer.helpers.DialogueWindowManager
+import com.example.musicplayer.utils.DialogueWindowManager
 import com.example.musicplayer.presentation.LoginResponse
 import com.example.musicplayer.presentation.LoginViewModel
 import com.example.musicplayer.presentation.MainActivity

@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicplayer.data.preferences.LoginStateRepository
-import com.example.musicplayer.data.db.PlayerUserRepository
-import com.example.musicplayer.data.db.PlayerUser
-import com.example.musicplayer.helpers.UserDataValidator
+import com.example.musicplayer.domain.entities.User
+import com.example.musicplayer.domain.usecases.UserUseCase
+import com.example.musicplayer.utils.UserDataValidator
 import kotlinx.coroutines.launch
 
 enum class LoginResponse {
@@ -17,8 +16,7 @@ enum class LoginResponse {
 }
 
 class LoginViewModel(
-    private val userRepository: PlayerUserRepository,
-    val loginStateRepository: LoginStateRepository,
+    private val userUseCase: UserUseCase,
     val validator: UserDataValidator = UserDataValidator()
 ) : ViewModel() {
 
@@ -32,24 +30,28 @@ class LoginViewModel(
 
     fun setRegisterButtonEnabled(newState: Boolean) = _isRegisterButtonEnabled.postValue(newState)
 
-    fun registerUser(user: PlayerUser) {
+    fun registerUser(user: User) {
         viewModelScope.launch {
-            userRepository.addUser(user)
+            userUseCase.addUser(user)
         }
-        loginStateRepository.saveLoginState(true)
+        setLoginState(true)
     }
 
     fun tryLoginUser(login: String, password: String) {
         viewModelScope.launch {
-            val dataFromDB = userRepository.getUser(login)
+            val dataFromDB = userUseCase.getUserData(login)
             if (validator.checkLoginData(login, password, dataFromDB)) {
-                loginStateRepository.saveLoginState(true)
+                setLoginState(true)
                 _isLoginSuccessful.postValue(LoginResponse.SUCCESSFUL)
             } else {
                 _isLoginSuccessful.postValue(LoginResponse.NOT_SUCCESSFUL)
             }
         }
     }
+
+    fun setLoginState(newState: Boolean) = userUseCase.saveLoginState(newState)
+
+    fun isLogged() = userUseCase.getLoginState()
 
     fun resetLoginResponse() = _isLoginSuccessful.postValue(LoginResponse.WAITING_FOR_DATA)
 }

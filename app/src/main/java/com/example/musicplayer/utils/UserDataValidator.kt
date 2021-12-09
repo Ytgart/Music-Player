@@ -1,7 +1,7 @@
-package com.example.musicplayer.helpers
+package com.example.musicplayer.utils
 
 import android.text.TextUtils
-import com.example.musicplayer.data.db.PlayerUser
+import com.example.musicplayer.domain.entities.User
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -49,8 +49,8 @@ class UserDataValidator {
         ))
     }
 
-    fun checkLoginData(login: String, password: String, userData: PlayerUser?): Boolean {
-        return if (userData != null) (login == userData.login && password == userData.password)
+    fun checkLoginData(login: String, password: String, userDBEntityData: User): Boolean {
+        return if (userDBEntityData != null) (login == userDBEntityData.login && password == userDBEntityData.password)
         else false
     }
 }

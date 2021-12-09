@@ -1,8 +1,6 @@
-package com.example.musicplayer.helpers
+package com.example.musicplayer.utils
 
 import android.content.Context
-import android.text.InputType
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.example.musicplayer.R
 import kotlin.system.exitProcess

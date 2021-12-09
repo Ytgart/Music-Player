@@ -1,4 +1,4 @@
-package com.example.musicplayer.helpers
+package com.example.musicplayer.utils
 
 import android.annotation.SuppressLint
 import android.view.Gravity
@@ -11,14 +11,14 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
-import com.example.musicplayer.data.db.Song
 import com.example.musicplayer.databinding.SongListItemBinding
+import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.presentation.MainActivity
 import com.squareup.picasso.Picasso
 
 class SongListAdapter(fragment: Fragment) :
     RecyclerView.Adapter<SongListAdapter.SongItemViewHolder>() {
-    private var songList = listOf<Song>()
+    private var songList = listOf<Track>()
     private val activity = (fragment.activity as MainActivity)
 
     inner class SongItemViewHolder(binding: SongListItemBinding) :
@@ -70,14 +70,14 @@ class SongListAdapter(fragment: Fragment) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateSongList(newList: List<Song>) {
+    fun updateSongList(newList: List<Track>) {
         songList = newList
         notifyDataSetChanged()
     }
 
     override fun getItemCount() = songList.size
 
-    private fun configurePopupMenu(menuButton: ImageButton, song: Song) {
+    private fun configurePopupMenu(menuButton: ImageButton, track: Track) {
         val popupMenu = PopupMenu(activity, menuButton)
         popupMenu.inflate(R.menu.song_popup)
         popupMenu.gravity = Gravity.END
@@ -89,7 +89,7 @@ class SongListAdapter(fragment: Fragment) :
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.deleteTrack -> {
-                    activity.playerViewModel.deleteSong(song)
+                    activity.playerViewModel.deleteSong(track)
                 }
             }
             false

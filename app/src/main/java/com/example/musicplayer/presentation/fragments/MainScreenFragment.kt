@@ -18,8 +18,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentMainScreenBinding
-import com.example.musicplayer.helpers.DialogueWindowManager
-import com.example.musicplayer.helpers.SongListAdapter
+import com.example.musicplayer.utils.DialogueWindowManager
+import com.example.musicplayer.utils.SongListAdapter
 import com.example.musicplayer.presentation.LoginViewModel
 import com.example.musicplayer.presentation.PlayerViewModel
 import dev.chrisbanes.insetter.applyInsetter
@@ -73,12 +73,12 @@ class MainScreenFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = SongListAdapter(this)
 
-        playerViewModel.getAllSongs().observe(viewLifecycleOwner, {
+        playerViewModel.getAllTracks().observe(viewLifecycleOwner, {
             (recyclerView.adapter as SongListAdapter).updateSongList(it)
         })
 
         binding.exitButton.setOnClickListener {
-            loginViewModel.loginStateRepository.saveLoginState(false)
+            loginViewModel.setLoginState(false)
             findNavController().navigate(R.id.loginFragment)
         }
     }

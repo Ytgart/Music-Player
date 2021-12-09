@@ -9,17 +9,17 @@
         android:id="@+id/registerFragment"
         android:name="com.example.musicplayer.presentation.fragments.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register"/>
+        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.example.musicplayer.presentation.fragments.PlayerFragment"
         android:label="fragment_player"
-        tools:layout="@layout/fragment_player"/>
+        tools:layout="@layout/fragment_player" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.musicplayer.presentation.fragments.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login"/>
+        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/mainScreenFragment"
         android:name="com.example.musicplayer.presentation.fragments.MainScreenFragment"

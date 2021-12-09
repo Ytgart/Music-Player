@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
-import com.example.musicplayer.data.db.PlayerUser
 import com.example.musicplayer.databinding.FragmentRegisterBinding
+import com.example.musicplayer.domain.entities.User
 import com.example.musicplayer.presentation.LoginViewModel
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -48,7 +48,8 @@ class RegisterFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             loginViewModel.validator.validateFields(inputFields)
             if (loginViewModel.validator.hasNoErrors(inputFields)) {
-                val data = PlayerUser(
+                val data = User(
+                    0,
                     binding.loginEditText.text.toString(),
                     binding.emailEditText.text.toString(),
                     binding.passwordEditText.text.toString()

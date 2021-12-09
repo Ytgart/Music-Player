@@ -1,14 +1,14 @@
-package com.example.musicplayer.data.db
+package com.example.musicplayer.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Song(
+data class TrackDBEntity(
     @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey
+    val id: String,
     @ColumnInfo(name = "coverPath")
     val coverURL: String,
     @ColumnInfo(name = "previewURL")
@@ -22,20 +22,4 @@ data class Song(
     @Transient
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean = false
-) {
-    constructor(
-        coverURL: String,
-        previewURL: String,
-        name: String,
-        performer: String,
-        duration: Int
-    ) : this(
-        0,
-        coverURL,
-        previewURL,
-        name,
-        performer,
-        duration,
-        false
-    )
-}
+)

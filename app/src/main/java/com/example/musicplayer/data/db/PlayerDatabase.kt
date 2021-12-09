@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.musicplayer.data.entities.TrackDBEntity
+import com.example.musicplayer.data.entities.UserDBEntity
 
-@Database(entities = [PlayerUser::class, Song::class], exportSchema = false, version = 1)
+@Database(entities = [UserDBEntity::class, TrackDBEntity::class], exportSchema = false, version = 1)
 abstract class PlayerDatabase : RoomDatabase() {
     abstract fun playerDBDao(): PlayerDBDao
 

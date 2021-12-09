@@ -8,9 +8,9 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.musicplayer.R
-import com.example.musicplayer.data.db.Song
 import com.example.musicplayer.databinding.FragmentPlayerBinding
-import com.example.musicplayer.domain.PlayerState
+import com.example.musicplayer.utils.PlayerState
+import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.presentation.PlayerViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Job
@@ -42,7 +42,7 @@ class PlayerFragment : Fragment() {
             viewModel.togglePause()
         }
 
-        viewModel.currentSongData.observe(viewLifecycleOwner, {
+        viewModel.currentTrackDBEntityData.observe(viewLifecycleOwner, {
             updateSongUI(it)
         })
 
@@ -85,17 +85,17 @@ class PlayerFragment : Fragment() {
         }
     }
 
-    private fun updateSongUI(newSong: Song) {
-        binding.performerText.text = newSong.performer
-        binding.songName.text = newSong.name
+    private fun updateSongUI(newTrack: Track) {
+        binding.performerText.text = newTrack.performer
+        binding.songName.text = newTrack.name
 
-        val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(newSong.duration.toLong()) % 60
-        val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(newSong.duration.toLong()) % 60
+        val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(newTrack.duration.toLong()) % 60
+        val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(newTrack.duration.toLong()) % 60
 
         binding.timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
 
         Picasso.get()
-            .load(newSong.coverURL)
+            .load(newTrack.coverURL)
             .into(binding.albumCover)
     }
 

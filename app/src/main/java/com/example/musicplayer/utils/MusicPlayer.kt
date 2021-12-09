@@ -1,4 +1,4 @@
-package com.example.musicplayer.domain
+package com.example.musicplayer.utils
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer

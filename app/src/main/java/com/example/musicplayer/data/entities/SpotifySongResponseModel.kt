@@ -1,5 +1,6 @@
-package com.example.musicplayer.data.remote
+package com.example.musicplayer.data.entities
 
+import com.example.musicplayer.domain.entities.Track
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -9,13 +10,16 @@ data class SpotifySongResponseModel(
     val album: Album,
     @Json(name = "artists")
     val artists: List<Artist>,
-    @Json(name = "duration_ms")
-    val durationMS: Int,
     @Json(name = "name")
     val name: String,
     @Json(name = "preview_url")
     val previewURL: String,
-)
+    @Json(name = "id")
+    val id: String
+) {
+    fun toTrack() =
+        Track(id, album.images[0].url, previewURL, name, artists[0].name, 29000, false)
+}
 
 @JsonClass(generateAdapter = true)
 data class Album(
@@ -31,10 +35,6 @@ data class Artist(
 
 @JsonClass(generateAdapter = true)
 data class Image(
-    @Json(name = "height")
-    val height: Long,
     @Json(name = "url")
     val url: String,
-    @Json(name = "width")
-    val width: Long
 )
