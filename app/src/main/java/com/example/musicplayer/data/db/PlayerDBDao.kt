@@ -3,6 +3,7 @@ package com.example.musicplayer.data.db
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.musicplayer.data.entities.TrackDBEntity
@@ -26,7 +27,7 @@ interface PlayerDBDao {
     @Insert
     suspend fun insertUser(userDBEntityData: UserDBEntity)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSong(trackDBEntity: TrackDBEntity)
 
     @Insert

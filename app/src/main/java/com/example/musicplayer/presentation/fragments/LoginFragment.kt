@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentLoginBinding
-import com.example.musicplayer.utils.DialogueWindowManager
 import com.example.musicplayer.presentation.LoginResponse
 import com.example.musicplayer.presentation.LoginViewModel
 import com.example.musicplayer.presentation.MainActivity
+import com.example.musicplayer.utils.DialogueWindowManager
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

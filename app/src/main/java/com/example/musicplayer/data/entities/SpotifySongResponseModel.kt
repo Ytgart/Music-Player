@@ -6,6 +6,18 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class SpotifySongResponseModel(
+    @Json(name = "tracks")
+    val tracks: TrackList
+)
+
+@JsonClass(generateAdapter = true)
+data class TrackList(
+    @Json(name = "items")
+    val trackList: List<SpotifyTrack>
+)
+
+@JsonClass(generateAdapter = true)
+data class SpotifyTrack(
     @Json(name = "album")
     val album: Album,
     @Json(name = "artists")

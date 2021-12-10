@@ -2,12 +2,15 @@ package com.example.musicplayer.data.remote
 
 import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.domain.interfaces.ISpotifyAPIRepository
+import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class SpotifyAPIRepository : ISpotifyAPIRepository {
+    private var spotifyToken: String = ""
+
     private val moshi = Moshi.Builder()
         .build()
 
@@ -18,11 +21,27 @@ class SpotifyAPIRepository : ISpotifyAPIRepository {
 
     private val requester = retrofit.create(SpotifyAPIService::class.java)
 
-    override suspend fun getTrack(id: String, token: String): Track? {
+    override suspend fun getTrackByQuery(queryString: String): Track? {
         return try {
-            requester.getSingleSong(id, "Bearer $token").toTrack()
+            val foundTracks = requester.getTrackByQuery(
+                queryString,
+                "track",
+                "1",
+                "Bearer $spotifyToken"
+            ).tracks.trackList
+            if (foundTracks.isNotEmpty()) {
+                return foundTracks[0].toTrack()
+            } else {
+                null
+            }
         } catch (exception: HttpException) {
             null
+        } catch (exception: JsonDataException) {
+            null
         }
+    }
+
+    override fun setToken(token: String) {
+        spotifyToken = token
     }
 }

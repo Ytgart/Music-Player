@@ -38,4 +38,5 @@
     <string name="start_typing_string">Начните вводить запрос..</string>
     <string name="nothing_found_string">Ничего не найдено</string>
     <string name="get_song_from_api_string">Получить песню из API</string>
+    <string name="provide_spotify_token">Добавить Spotify Token</string>
 </resources>

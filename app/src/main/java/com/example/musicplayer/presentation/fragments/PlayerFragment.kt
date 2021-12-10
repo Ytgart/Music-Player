@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentPlayerBinding
-import com.example.musicplayer.utils.PlayerState
 import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.presentation.PlayerViewModel
+import com.example.musicplayer.utils.PlayerState
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -42,19 +42,20 @@ class PlayerFragment : Fragment() {
             viewModel.togglePause()
         }
 
-        viewModel.currentTrackDBEntityData.observe(viewLifecycleOwner, {
+        viewModel.currentTrackData.observe(viewLifecycleOwner, {
+            binding.playerElements.visibility = View.INVISIBLE
             updateSongUI(it)
+            viewModel.prepareSong()
+        })
+
+        viewModel.currentTrackDuration.observe(viewLifecycleOwner, {
+            binding.seekBar.max = it
         })
 
         viewModel.playerState.observe(viewLifecycleOwner, {
             when (it) {
-                PlayerState.NOT_PREPARED -> {
-                    updateSeekBarJob?.cancel()
-                    updateCurrentTimeJob?.cancel()
-                    binding.playerElements.visibility = View.INVISIBLE
-                    viewModel.prepareSong()
-                }
                 PlayerState.PREPARED -> {
+                    viewModel.setCurrentTrackDuration(viewModel.getSongDuration())
                     setupPlayerState(R.drawable.play_icon)
                 }
                 PlayerState.ENDED -> {
@@ -67,6 +68,7 @@ class PlayerFragment : Fragment() {
                     setupPlayerState(R.drawable.play_icon)
                 }
                 else -> {
+
                 }
             }
         })
@@ -77,8 +79,8 @@ class PlayerFragment : Fragment() {
     }
 
     private fun setupPlayerState(icon: Int) {
-        binding.playButton.setImageResource(icon)
         binding.playerElements.visibility = View.VISIBLE
+        binding.playButton.setImageResource(icon)
         if (isSeekBarDirty) {
             setSeekBar()
             isSeekBarDirty = false
@@ -100,7 +102,6 @@ class PlayerFragment : Fragment() {
     }
 
     private fun setSeekBar() {
-        binding.seekBar.max = viewModel.getSongDuration()
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 if (p2) {

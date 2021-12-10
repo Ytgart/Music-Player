@@ -4,25 +4,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicplayer.utils.MusicPlayer
-import com.example.musicplayer.utils.PlayerState
 import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.domain.usecases.TrackUseCase
+import com.example.musicplayer.utils.MusicPlayer
+import com.example.musicplayer.utils.PlayerState
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
     private val trackUseCase: TrackUseCase,
     private val musicPlayer: MusicPlayer
 ) : ViewModel() {
-    private val _currentSongData = MutableLiveData<Track>()
-    val currentTrackDBEntityData: LiveData<Track>
-        get() = _currentSongData
+    private val _currentTrackData = MutableLiveData<Track>()
+    val currentTrackData: LiveData<Track>
+        get() = _currentTrackData
+
+    private val _currentTrackDuration = MutableLiveData<Int>()
+    val currentTrackDuration: LiveData<Int>
+        get() = _currentTrackDuration
 
     val playerState: LiveData<PlayerState>
         get() = musicPlayer.playerState
 
-    fun setCurrentSong(newTrack: Track) =
-        _currentSongData.postValue(newTrack)
+    fun setCurrentTrack(newTrack: Track) = _currentTrackData.postValue(newTrack)
+
+    fun setCurrentTrackDuration(duration: Int) = _currentTrackDuration.postValue(duration)
 
     fun getAllTracks() = trackUseCase.getAllTracks()
 
@@ -30,9 +35,9 @@ class PlayerViewModel(
 
     fun searchForTracks(queryString: String) = trackUseCase.getTracksByFilter(queryString)
 
-    fun addSongFromSpotifyAPI(id: String, token: String) {
+    fun addSongFromSpotifyAPI(queryString: String) {
         viewModelScope.launch {
-            trackUseCase.addTrackFromAPI(id, token)
+            trackUseCase.addTrackFromAPI(queryString)
         }
     }
 
@@ -48,17 +53,19 @@ class PlayerViewModel(
         }
     }
 
-    fun prepareSong() = musicPlayer.prepareSong(_currentSongData.value?.previewURL)
+    fun prepareSong() = musicPlayer.prepareSong(_currentTrackData.value?.previewURL)
 
     fun seekInSong(position: Int) {
         musicPlayer.seekTo(position)
     }
 
-    fun togglePause(): Boolean = musicPlayer.togglePause()
+    fun togglePause() = musicPlayer.togglePause()
 
     fun getPlayerPosition() = musicPlayer.getCurrentPosition()
 
     fun getSongDuration() = musicPlayer.getFileDuration()
 
     fun resetPlayer() = musicPlayer.resetPlayer()
+
+    fun provideSpotifyToken(token: String) = trackUseCase.provideToken(token)
 }

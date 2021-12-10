@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentSearchBinding
+import com.example.musicplayer.presentation.PlayerViewModel
 import com.example.musicplayer.utils.SongListAdapter
 import com.example.musicplayer.utils.afterTextChanged
-import com.example.musicplayer.presentation.PlayerViewModel
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

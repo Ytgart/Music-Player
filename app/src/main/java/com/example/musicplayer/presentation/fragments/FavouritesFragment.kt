@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.databinding.FragmentFavouritesBinding
-import com.example.musicplayer.utils.SongListAdapter
 import com.example.musicplayer.presentation.PlayerViewModel
+import com.example.musicplayer.utils.SongListAdapter
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

@@ -5,8 +5,9 @@ import android.media.MediaPlayer
 import androidx.lifecycle.MutableLiveData
 
 enum class PlayerState {
-    NOT_PREPARED,
+    IDLE,
     PREPARED,
+    PREPARING,
     PLAYING,
     PAUSED,
     ENDED
@@ -14,26 +15,27 @@ enum class PlayerState {
 
 class MusicPlayer {
     private val mediaPlayer: MediaPlayer = MediaPlayer()
-    val playerState = MutableLiveData(PlayerState.NOT_PREPARED)
+    val playerState = MutableLiveData(PlayerState.IDLE)
 
     init {
         setup()
     }
 
     fun prepareSong(url: String?) {
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
+        if (playerState.value == PlayerState.IDLE) {
+            playerState.postValue(PlayerState.PREPARING)
+            mediaPlayer.setDataSource(url)
+            mediaPlayer.prepareAsync()
+        }
     }
 
-    fun togglePause(): Boolean {
-        return if (mediaPlayer.isPlaying) {
+    fun togglePause() {
+        if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
             playerState.postValue(PlayerState.PAUSED)
-            false
         } else {
             mediaPlayer.start()
             playerState.postValue(PlayerState.PLAYING)
-            true
         }
     }
 
@@ -46,9 +48,9 @@ class MusicPlayer {
     fun getFileDuration() = mediaPlayer.duration
 
     fun resetPlayer() {
-        if (playerState.value != PlayerState.NOT_PREPARED) {
+        if (playerState.value != PlayerState.IDLE) {
             mediaPlayer.reset()
-            playerState.postValue(PlayerState.NOT_PREPARED)
+            playerState.postValue(PlayerState.IDLE)
         }
     }
 
@@ -64,6 +66,7 @@ class MusicPlayer {
         mediaPlayer.setOnPreparedListener {
             playerState.postValue(PlayerState.PREPARED)
         }
+
         mediaPlayer.setOnCompletionListener {
             playerState.postValue(PlayerState.ENDED)
         }

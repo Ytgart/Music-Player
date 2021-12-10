@@ -15,8 +15,8 @@ class TrackUseCase(
     fun getTracksByFilter(queryString: String) =
         trackDBEntityRepository.getTracksByFilter(queryString)
 
-    suspend fun addTrackFromAPI(id: String, token: String) {
-        val newTrack = spotifyAPIRepository.getTrack(id, token)
+    suspend fun addTrackFromAPI(query: String) {
+        val newTrack = spotifyAPIRepository.getTrackByQuery(query)
         if (newTrack != null) {
             trackDBEntityRepository.addTrack(newTrack)
         }
@@ -25,4 +25,6 @@ class TrackUseCase(
     suspend fun deleteTrack(track: Track) = trackDBEntityRepository.deleteTrack(track)
 
     suspend fun updateTrack(track: Track) = trackDBEntityRepository.updateTrack(track)
+
+    fun provideToken(token: String) = spotifyAPIRepository.setToken(token)
 }

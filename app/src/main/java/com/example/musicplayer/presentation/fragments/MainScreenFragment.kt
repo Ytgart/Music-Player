@@ -18,10 +18,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentMainScreenBinding
-import com.example.musicplayer.utils.DialogueWindowManager
-import com.example.musicplayer.utils.SongListAdapter
 import com.example.musicplayer.presentation.LoginViewModel
 import com.example.musicplayer.presentation.PlayerViewModel
+import com.example.musicplayer.utils.DialogueWindowManager
+import com.example.musicplayer.utils.SongListAdapter
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -95,34 +95,60 @@ class MainScreenFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.getSongFromAPI -> {
-                    showEnterIDDialogue(requireContext())
+                    showEnterTrackDataDialogue(requireContext())
+                }
+                R.id.provideToken -> {
+                    showEnterSpotifyToken(requireContext())
                 }
             }
             false
         }
     }
 
-    private fun showEnterIDDialogue(context: Context) {
+    private fun showEnterSpotifyToken(context: Context) {
         val builder = AlertDialog.Builder(context)
 
         val layout = LinearLayout(context)
         layout.orientation = LinearLayout.VERTICAL
 
         val input = EditText(context)
-        input.hint = "Введите ID трека"
+        input.hint = "Введите ваш Spotify Token"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        layout.addView(input)
+
+        builder.setView(layout)
+
+        builder.setTitle("Ввод данных")
+        builder.setPositiveButton("Ок") { _, _ ->
+            playerViewModel.provideSpotifyToken(input.text.toString())
+        }
+        builder.create()
+        builder.show()
+    }
+
+    private fun showEnterTrackDataDialogue(context: Context) {
+        val builder = AlertDialog.Builder(context)
+
+        val layout = LinearLayout(context)
+        layout.orientation = LinearLayout.VERTICAL
+
+        val input = EditText(context)
+        input.hint = "Введите название трека"
         input.inputType = InputType.TYPE_CLASS_TEXT
         layout.addView(input)
 
         val input2 = EditText(context)
-        input2.hint = "Введите ваш Spotify Token"
+        input2.hint = "Введите исполнителя трека"
         input2.inputType = InputType.TYPE_CLASS_TEXT
         layout.addView(input2)
 
         builder.setView(layout)
 
-        builder.setTitle("Добавить трек по ID")
+        builder.setTitle("Ввод данных")
         builder.setPositiveButton("Ок") { _, _ ->
-            playerViewModel.addSongFromSpotifyAPI(input.text.toString(), input2.text.toString())
+            playerViewModel.addSongFromSpotifyAPI(
+                "track:\"${input.text}\"+artist:\"${input2.text}\""
+            )
         }
         builder.create()
         builder.show()
