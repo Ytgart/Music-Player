@@ -39,9 +39,7 @@ class MusicPlayer {
         }
     }
 
-    fun seekTo(position: Int) {
-        mediaPlayer.seekTo(position)
-    }
+    fun seekTo(position: Int) = mediaPlayer.seekTo(position)
 
     fun getCurrentPosition() = mediaPlayer.currentPosition
 
@@ -65,6 +63,7 @@ class MusicPlayer {
         }
         mediaPlayer.setOnPreparedListener {
             playerState.postValue(PlayerState.PREPARED)
+            mediaPlayer.start()
         }
 
         mediaPlayer.setOnCompletionListener {

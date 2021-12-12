@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.SongListItemBinding
+import com.example.musicplayer.di.playerVMModule
 import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.presentation.MainActivity
 import com.squareup.picasso.Picasso
@@ -26,7 +27,6 @@ class SongListAdapter(fragment: Fragment) :
         var nameTextView: TextView = binding.name
         var performerTextView: TextView = binding.performer
         var coverImageView: ImageView = binding.cover
-        var likeButton: ImageButton = binding.likeButton
         var menuButton: ImageButton = binding.menuButton
     }
 
@@ -51,21 +51,8 @@ class SongListAdapter(fragment: Fragment) :
             .into(holder.coverImageView)
 
         holder.coverImageView.rootView.setOnClickListener {
+            activity.playerViewModel.resetPlayer()
             activity.playerViewModel.setCurrentTrack(songList[position])
-            activity.navController
-                .navigate(R.id.playerFragment)
-        }
-
-        holder.likeButton.setOnClickListener {
-            val newSongInfo = songList[position]
-            newSongInfo.isFavorite = !newSongInfo.isFavorite
-            activity.playerViewModel.updateSong(newSongInfo)
-        }
-
-        if (songList[position].isFavorite) {
-            holder.likeButton.setImageResource(R.drawable.heart_pressed)
-        } else {
-            holder.likeButton.setImageResource(R.drawable.heart)
         }
     }
 
