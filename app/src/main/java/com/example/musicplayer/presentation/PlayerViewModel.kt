@@ -18,16 +18,10 @@ class PlayerViewModel(
     val currentTrackData: LiveData<Track>
         get() = _currentTrackData
 
-    private val _currentTrackDuration = MutableLiveData<Int>()
-    val currentTrackDuration: LiveData<Int>
-        get() = _currentTrackDuration
-
     val playerState: LiveData<PlayerState>
         get() = musicPlayer.playerState
 
     fun setCurrentTrack(newTrack: Track) = _currentTrackData.postValue(newTrack)
-
-    fun setCurrentTrackDuration(duration: Int) = _currentTrackDuration.postValue(duration)
 
     fun getAllTracks() = trackUseCase.getAllTracks()
 

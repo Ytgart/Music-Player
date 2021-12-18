@@ -10,12 +10,11 @@ import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.SongListItemBinding
-import com.example.musicplayer.di.playerVMModule
 import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.presentation.MainActivity
-import com.squareup.picasso.Picasso
 
 class SongListAdapter(fragment: Fragment) :
     RecyclerView.Adapter<SongListAdapter.SongItemViewHolder>() {
@@ -46,9 +45,7 @@ class SongListAdapter(fragment: Fragment) :
 
         configurePopupMenu(holder.menuButton, songList[position])
 
-        Picasso.get()
-            .load(songList[position].coverURL)
-            .into(holder.coverImageView)
+        holder.coverImageView.load(songList[position].coverURL)
 
         holder.coverImageView.rootView.setOnClickListener {
             activity.playerViewModel.resetPlayer()

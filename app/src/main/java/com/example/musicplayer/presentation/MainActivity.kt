@@ -1,18 +1,22 @@
 package com.example.musicplayer.presentation
 
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.doOnLayout
+import androidx.core.view.forEach
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import coil.load
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.ActivityMainBinding
 import com.example.musicplayer.utils.PlayerState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -121,26 +125,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomSheet() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.navigationMenu.foreground = ColorDrawable(getColor(R.color.background_grey))
+            binding.navigationMenu.foreground.alpha = 0
+        }
+
+        trackIndicatorView.root.doOnLayout {
+            bottomSheetBehavior.peekHeight = trackIndicatorView.root.height
+        }
+
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        binding.navigationMenu.menu.forEach {
+                            it.isEnabled = false
+                        }
+                    }
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        binding.bottomSheet.trackIndicatorFrame.visibility = View.VISIBLE
-                        binding.navigationMenu.visibility = View.VISIBLE
+                        binding.navigationMenu.menu.forEach {
+                            it.isEnabled = true
+                        }
                     }
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                        binding.bottomSheet.trackIndicatorFrame.visibility = View.GONE
-                        binding.navigationMenu.visibility = View.GONE
-                    }
-                    else -> {
-
-                    }
+                    else -> {}
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
+                trackIndicatorView.root.alpha = 1 - slideOffset
+                binding.navigationMenu.foreground.alpha = (slideOffset * 255).toInt()
             }
         })
     }
@@ -159,8 +173,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         trackIndicatorView.root.setOnClickListener {
-            binding.bottomSheet.trackIndicatorFrame.visibility = View.GONE
-            binding.navigationMenu.visibility = View.GONE
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
@@ -191,10 +203,7 @@ class MainActivity : AppCompatActivity() {
             playerView.songName.text = it.name
             playerView.performerText.text = it.performer
             playerView.timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
-
-            Picasso.get()
-                .load(it.coverURL)
-                .into(playerView.albumCover)
+            playerView.albumCover.load(it.coverURL)
 
             if (it.isFavorite) {
                 trackIndicatorView.likeButton.setImageResource(R.drawable.heart_pressed)

@@ -21,16 +21,6 @@
         app:layout_constraintVertical_bias="0.60"
         tools:ignore="ContentDescription,MissingConstraints" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.317"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/playerElements"
         android:layout_width="wrap_content"
@@ -70,7 +60,7 @@
             android:fontFamily="sans-serif-black"
             android:text="@string/song"
             android:textColor="@color/text_color_selector"
-            android:textSize="20dp"
+            android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/albumCardView"
             app:layout_constraintTop_toTopOf="parent"
@@ -84,7 +74,7 @@
             android:layout_gravity="start"
             android:fontFamily="sans-serif-black"
             android:text="@string/performer"
-            android:textSize="16dp"
+            android:textSize="14dp"
             app:layout_constraintStart_toStartOf="@+id/songName"
             app:layout_constraintTop_toBottomOf="@+id/songName"
             tools:ignore="SpUsage" />

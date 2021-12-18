@@ -6,30 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".presentation.MainActivity">
 
-    <ImageButton
-        android:id="@+id/menuButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?selectableItemBackground"
-        android:padding="13dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/close_icon"
-        app:layout_constraintBottom_toTopOf="@+id/playerElements"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6"
-        tools:ignore="ContentDescription,MissingConstraints" />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/playerElements"
         android:layout_width="match_parent"
@@ -37,41 +13,45 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/albumCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            app:cardBackgroundColor="@android:color/transparent"
+        <ImageButton
+            android:id="@+id/menuButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?selectableItemBackground"
+            android:padding="13dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/close_icon"
+            app:layout_constraintEnd_toEndOf="@+id/albumCover"
+            app:layout_constraintStart_toStartOf="@+id/albumCover"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription,MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/albumCover"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="14dp"
+            android:src="@drawable/close_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/text_color_selector"
-            app:strokeWidth="1dp">
-
-            <ImageView
-                android:id="@+id/albumCover"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
-                android:src="@drawable/close_icon"
-                tools:ignore="ContentDescription" />
-
-        </com.google.android.material.card.MaterialCardView>
-
+            app:layout_constraintTop_toBottomOf="@+id/menuButton"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/songName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginTop="60dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/song"
             android:textColor="@color/text_color_selector"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="@+id/albumCardView"
-            app:layout_constraintTop_toBottomOf="@+id/albumCardView"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/albumCover"
+            app:layout_constraintTop_toBottomOf="@+id/albumCover"
+            app:layout_constraintVertical_bias="0.20"
             tools:ignore="SpUsage" />
 
         <TextView
@@ -81,8 +61,8 @@
             android:layout_gravity="start"
             android:fontFamily="sans-serif-black"
             android:text="@string/performer"
-            android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="@+id/albumCardView"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="@+id/albumCover"
             app:layout_constraintTop_toBottomOf="@+id/songName"
             tools:ignore="SpUsage" />
 
@@ -96,8 +76,8 @@
             android:progressTint="@color/text_color_selector"
             android:thumbOffset="3dp"
             android:thumbTint="@color/text_color_selector"
-            app:layout_constraintEnd_toEndOf="@+id/albumCardView"
-            app:layout_constraintStart_toStartOf="@+id/albumCardView"
+            app:layout_constraintEnd_toEndOf="@+id/albumCover"
+            app:layout_constraintStart_toStartOf="@+id/albumCover"
             app:layout_constraintTop_toBottomOf="@+id/performerText"
             tools:ignore="RtlSymmetry" />
 
