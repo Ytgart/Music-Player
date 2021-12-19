@@ -21,6 +21,9 @@ class TrackDBEntityRepository(private val playerDatabase: PlayerDatabase) :
         playerDatabase.playerDBDao().getSearchedSongs(queryString).asLiveData()
             .switchMap { it.toTrackList() }
 
+    override suspend fun getTrackByID(id: Int): Track =
+        playerDatabase.playerDBDao().getTrackByID(id).toTrack()
+
     override suspend fun addTrack(newTrack: Track) =
         playerDatabase.playerDBDao().insertSong(newTrack.toTrackDBEntity())
 

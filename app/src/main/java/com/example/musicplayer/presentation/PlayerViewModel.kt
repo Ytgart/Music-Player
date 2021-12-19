@@ -21,7 +21,14 @@ class PlayerViewModel(
     val playerState: LiveData<PlayerState>
         get() = musicPlayer.playerState
 
-    fun setCurrentTrack(newTrack: Track) = _currentTrackData.postValue(newTrack)
+    fun setCurrentTrack(trackID: Int) {
+        viewModelScope.launch {
+            musicPlayer.resetPlayer()
+            val track = trackUseCase.getTrackByID(trackID)
+            _currentTrackData.postValue(track)
+            musicPlayer.prepareSong(track.previewURL)
+        }
+    }
 
     fun getAllTracks() = trackUseCase.getAllTracks()
 
@@ -47,8 +54,6 @@ class PlayerViewModel(
         }
     }
 
-    fun prepareSong() = musicPlayer.prepareSong(_currentTrackData.value?.previewURL)
-
     fun seekInSong(position: Int) {
         musicPlayer.seekTo(position)
     }
@@ -59,7 +64,7 @@ class PlayerViewModel(
 
     fun getSongDuration() = musicPlayer.getFileDuration()
 
-    fun resetPlayer() = musicPlayer.resetPlayer()
+    fun isTrackPlaying() = musicPlayer.isPlaying()
 
     fun provideSpotifyToken(token: String) = trackUseCase.provideToken(token)
 }

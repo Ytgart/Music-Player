@@ -1,11 +1,6 @@
 package com.example.musicplayer.data.db
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.musicplayer.data.entities.TrackDBEntity
 import com.example.musicplayer.data.entities.UserDBEntity
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +15,9 @@ interface PlayerDBDao {
 
     @Query("SELECT * FROM TrackDBEntity WHERE name LIKE '%' || :name || '%' OR performer LIKE '%' || :name || '%'")
     fun getSearchedSongs(name: String): Flow<List<TrackDBEntity>>
+
+    @Query("SELECT * FROM TrackDBEntity WHERE id = :id")
+    suspend fun getTrackByID(id: Int): TrackDBEntity
 
     @Query("SELECT * FROM UserDBEntity WHERE login == (:login)")
     suspend fun getUserByLogin(login: String): UserDBEntity

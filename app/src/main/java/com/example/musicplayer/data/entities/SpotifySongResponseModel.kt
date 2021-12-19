@@ -26,11 +26,9 @@ data class SpotifyTrack(
     val name: String,
     @Json(name = "preview_url")
     val previewURL: String,
-    @Json(name = "id")
-    val id: String
 ) {
     fun toTrack() =
-        Track(id, album.images[0].url, previewURL, name, artists[0].name, 29000, false)
+        Track(0, album.images[0].url, previewURL, name, artists[0].name, 29000, false)
 }
 
 @JsonClass(generateAdapter = true)

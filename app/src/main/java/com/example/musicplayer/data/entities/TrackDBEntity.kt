@@ -3,12 +3,13 @@ package com.example.musicplayer.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.musicplayer.domain.entities.Track
 
 @Entity
 data class TrackDBEntity(
     @ColumnInfo(name = "id")
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
     @ColumnInfo(name = "coverPath")
     val coverURL: String,
     @ColumnInfo(name = "previewURL")
@@ -22,4 +23,6 @@ data class TrackDBEntity(
     @Transient
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean = false
-)
+) {
+    fun toTrack() = Track(id, coverURL, previewURL, name, performer, duration, isFavorite)
+}

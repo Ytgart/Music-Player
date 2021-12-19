@@ -52,6 +52,8 @@ class MusicPlayer {
         }
     }
 
+    fun isPlaying() = mediaPlayer.isPlaying
+
     private fun setup() {
         mediaPlayer.apply {
             setAudioAttributes(

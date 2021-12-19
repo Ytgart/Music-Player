@@ -3,7 +3,7 @@ package com.example.musicplayer.domain.entities
 import com.example.musicplayer.data.entities.TrackDBEntity
 
 data class Track(
-    val id: String,
+    val id: Int,
     val coverURL: String,
     val previewURL: String,
     val name: String,

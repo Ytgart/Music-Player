@@ -45,11 +45,12 @@ class SongListAdapter(fragment: Fragment) :
 
         configurePopupMenu(holder.menuButton, songList[position])
 
-        holder.coverImageView.load(songList[position].coverURL)
+        holder.coverImageView.load(songList[position].coverURL) {
+            crossfade(true)
+        }
 
         holder.coverImageView.rootView.setOnClickListener {
-            activity.playerViewModel.resetPlayer()
-            activity.playerViewModel.setCurrentTrack(songList[position])
+            activity.playerViewModel.setCurrentTrack(songList[position].id)
         }
     }
 

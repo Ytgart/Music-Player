@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity() {
 
     private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.bottomSheet.root) }
 
+    private var currentTrackID = 0
+
+    private var maxTrackID = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -188,22 +192,47 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        playerView.nextButton.setOnClickListener {
+            if (currentTrackID + 1 == maxTrackID + 1) {
+                playerViewModel.setCurrentTrack(1)
+            } else {
+                playerViewModel.setCurrentTrack(currentTrackID + 1)
+            }
+        }
+
+        playerView.previousButton.setOnClickListener {
+            if (currentTrackID - 1 == 0) {
+                playerViewModel.setCurrentTrack(maxTrackID - 1)
+            } else {
+                playerViewModel.setCurrentTrack(currentTrackID - 1)
+            }
+        }
     }
 
     private fun setPlayer() {
+        playerViewModel.getAllTracks().observe(this, {
+            maxTrackID = it.size
+        })
+
         playerViewModel.currentTrackData.observe(this, {
+            currentTrackID = it.id
+
             val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(it.duration.toLong()) % 60
             val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(it.duration.toLong()) % 60
 
-            playerViewModel.prepareSong()
-            trackIndicatorView.playButton.visibility = View.GONE
-            trackIndicatorView.indicatorPerformerText.text = it.performer
-            trackIndicatorView.indicatorTrackText.text = it.name
+            trackIndicatorView.apply {
+                playButton.visibility = View.GONE
+                indicatorPerformerText.text = it.performer
+                indicatorTrackText.text = it.name
+            }
 
-            playerView.songName.text = it.name
-            playerView.performerText.text = it.performer
-            playerView.timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
-            playerView.albumCover.load(it.coverURL)
+            playerView.apply {
+                songName.text = it.name
+                performerText.text = it.performer
+                timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
+                albumCover.load(it.coverURL)
+            }
 
             if (it.isFavorite) {
                 trackIndicatorView.likeButton.setImageResource(R.drawable.heart_pressed)
@@ -234,36 +263,42 @@ class MainActivity : AppCompatActivity() {
                     playerView.playButton.setImageResource(R.drawable.pause_icon)
                 }
                 PlayerState.ENDED -> {
-                    trackIndicatorView.playButton.setImageResource(R.drawable.play_icon_small)
-                    playerView.playButton.setImageResource(R.drawable.play_icon)
+                    if (currentTrackID + 1 == maxTrackID + 1) {
+                        playerViewModel.setCurrentTrack(1)
+                    } else {
+                        playerViewModel.setCurrentTrack(currentTrackID + 1)
+                    }
                 }
                 else -> {}
             }
         })
-
-
     }
 
     private fun setCoroutines() {
         lifecycleScope.launch {
             while (isActive) {
-                val currentPosition = playerViewModel.getPlayerPosition()
+                if (playerViewModel.isTrackPlaying()) {
+                    val currentPosition = playerViewModel.getPlayerPosition()
 
-                trackIndicatorView.progressBar.progress = currentPosition
-                playerView.seekBar.progress = currentPosition
-
+                    trackIndicatorView.progressBar.progress = currentPosition
+                    playerView.seekBar.progress = currentPosition
+                }
                 delay(20)
             }
         }
 
         lifecycleScope.launch {
             while (isActive) {
-                val currentPosition = playerViewModel.getPlayerPosition()
-                val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(currentPosition.toLong()) % 60
-                val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(currentPosition.toLong()) % 60
+                if (playerViewModel.isTrackPlaying()) {
+                    val currentPosition = playerViewModel.getPlayerPosition()
+                    val durationMinutes =
+                        TimeUnit.MILLISECONDS.toMinutes(currentPosition.toLong()) % 60
+                    val durationSeconds =
+                        TimeUnit.MILLISECONDS.toSeconds(currentPosition.toLong()) % 60
 
-                playerView.timeCurrent.text =
-                    String.format("%d:%02d", durationMinutes, durationSeconds)
+                    playerView.timeCurrent.text =
+                        String.format("%d:%02d", durationMinutes, durationSeconds)
+                }
                 delay(1000)
             }
         }

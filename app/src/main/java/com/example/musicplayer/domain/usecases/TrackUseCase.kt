@@ -8,6 +8,8 @@ class TrackUseCase(
     private val trackDBEntityRepository: ITrackDBEntityRepository,
     private val spotifyAPIRepository: ISpotifyAPIRepository
 ) {
+    suspend fun getTrackByID(id: Int) = trackDBEntityRepository.getTrackByID(id)
+
     fun getAllTracks() = trackDBEntityRepository.getTracks()
 
     fun getFavouriteTracks() = trackDBEntityRepository.getFavouriteTracks()
