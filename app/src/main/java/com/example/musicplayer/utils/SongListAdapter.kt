@@ -50,7 +50,7 @@ class SongListAdapter(fragment: Fragment) :
         }
 
         holder.coverImageView.rootView.setOnClickListener {
-            activity.playerViewModel.setCurrentTrack(songList[position].id)
+            activity.playerViewModel.setCurrentTrack(songList[position])
         }
     }
 

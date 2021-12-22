@@ -143,6 +143,19 @@
             app:layout_constraintTop_toTopOf="@+id/playButton"
             tools:ignore="ContentDescription" />
 
+        <ImageButton
+            android:id="@+id/likeButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?selectableItemBackground"
+            android:padding="12dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/heart"
+            app:layout_constraintBottom_toBottomOf="@+id/performerText"
+            app:layout_constraintEnd_toEndOf="@+id/albumCover"
+            app:layout_constraintTop_toTopOf="@+id/songName"
+            tools:ignore="ContentDescription" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

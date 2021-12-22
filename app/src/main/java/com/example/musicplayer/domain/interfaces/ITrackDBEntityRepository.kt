@@ -10,8 +10,6 @@ interface ITrackDBEntityRepository {
 
     fun getTracksByFilter(queryString: String): LiveData<List<Track>>
 
-    suspend fun getTrackByID(id: Int): Track
-
     suspend fun addTrack(newTrack: Track)
 
     suspend fun deleteTrack(keyTrack: Track)

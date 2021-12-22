@@ -5,5 +5,5 @@ import com.example.musicplayer.domain.entities.User
 interface IUserDBEntityRepository {
     suspend fun addUser(user: User)
 
-    suspend fun getUser(login: String): User
+    suspend fun getUser(login: String): User?
 }

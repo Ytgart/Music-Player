@@ -12,7 +12,14 @@ import androidx.core.view.forEach
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import coil.annotation.ExperimentalCoilApi
+import coil.decode.DataSource
 import coil.load
+import coil.request.ImageResult
+import coil.request.SuccessResult
+import coil.transition.CrossfadeTransition
+import coil.transition.Transition
+import coil.transition.TransitionTarget
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.ActivityMainBinding
 import com.example.musicplayer.utils.PlayerState
@@ -41,10 +48,6 @@ class MainActivity : AppCompatActivity() {
     private val playerView by lazy { binding.bottomSheet.playerLayout }
 
     private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.bottomSheet.root) }
-
-    private var currentTrackID = 0
-
-    private var maxTrackID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,8 +116,10 @@ class MainActivity : AppCompatActivity() {
             if (destination.id == R.id.loginFragment || destination.id == R.id.registerFragment
             ) {
                 binding.navigationMenu.visibility = View.GONE
+                binding.bottomSheet.root.visibility = View.GONE
             } else if (binding.navigationMenu.visibility != View.VISIBLE) {
                 binding.navigationMenu.visibility = View.VISIBLE
+                binding.bottomSheet.root.visibility = View.VISIBLE
             }
 
             when (destination.id) {
@@ -187,41 +192,48 @@ class MainActivity : AppCompatActivity() {
                 playerViewModel.updateSong(newSongInfo)
                 if (newSongInfo.isFavorite) {
                     trackIndicatorView.likeButton.setImageResource(R.drawable.heart_pressed)
+                    playerView.likeButton.setImageResource(R.drawable.heart_pressed)
                 } else {
+                    trackIndicatorView.likeButton.setImageResource(R.drawable.heart)
+                    playerView.likeButton.setImageResource(R.drawable.heart)
+                }
+            }
+        }
+
+        playerView.likeButton.setOnClickListener {
+            val newSongInfo = playerViewModel.currentTrackData.value
+            if (newSongInfo != null) {
+                newSongInfo.isFavorite = !newSongInfo.isFavorite
+                playerViewModel.updateSong(newSongInfo)
+                if (newSongInfo.isFavorite) {
+                    playerView.likeButton.setImageResource(R.drawable.heart_pressed)
+                    trackIndicatorView.likeButton.setImageResource(R.drawable.heart_pressed)
+                } else {
+                    playerView.likeButton.setImageResource(R.drawable.heart)
                     trackIndicatorView.likeButton.setImageResource(R.drawable.heart)
                 }
             }
         }
 
         playerView.nextButton.setOnClickListener {
-            if (currentTrackID + 1 == maxTrackID + 1) {
-                playerViewModel.setCurrentTrack(1)
-            } else {
-                playerViewModel.setCurrentTrack(currentTrackID + 1)
-            }
+            playerView.seekBar.progress = 0
+            playerViewModel.nextTrack()
         }
 
         playerView.previousButton.setOnClickListener {
-            if (currentTrackID - 1 == 0) {
-                playerViewModel.setCurrentTrack(maxTrackID - 1)
-            } else {
-                playerViewModel.setCurrentTrack(currentTrackID - 1)
-            }
+            playerView.seekBar.progress = 0
+            playerViewModel.previousTrack()
         }
     }
 
+    @ExperimentalCoilApi
     private fun setPlayer() {
-        playerViewModel.getAllTracks().observe(this, {
-            maxTrackID = it.size
-        })
-
         playerViewModel.currentTrackData.observe(this, {
-            currentTrackID = it.id
-
             val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(it.duration.toLong()) % 60
             val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(it.duration.toLong()) % 60
 
             trackIndicatorView.apply {
+                progressBar.progress = 0
                 playButton.visibility = View.GONE
                 indicatorPerformerText.text = it.performer
                 indicatorTrackText.text = it.name
@@ -231,13 +243,32 @@ class MainActivity : AppCompatActivity() {
                 songName.text = it.name
                 performerText.text = it.performer
                 timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
-                albumCover.load(it.coverURL)
+                albumCover.load(it.coverURL) {
+                    transition(object : Transition {
+                        val crossfadeTransition = CrossfadeTransition(250)
+
+                        override suspend fun transition(
+                            target: TransitionTarget,
+                            result: ImageResult
+                        ) {
+                            crossfadeTransition.transition(
+                                target,
+                                (result as? SuccessResult)?.takeIf { it ->
+                                    it.metadata.dataSource == DataSource.MEMORY_CACHE
+                                }?.run {
+                                    copy(metadata = metadata.copy(dataSource = DataSource.MEMORY))
+                                } ?: result)
+                        }
+                    })
+                }
             }
 
             if (it.isFavorite) {
                 trackIndicatorView.likeButton.setImageResource(R.drawable.heart_pressed)
+                playerView.likeButton.setImageResource(R.drawable.heart_pressed)
             } else {
                 trackIndicatorView.likeButton.setImageResource(R.drawable.heart)
+                playerView.likeButton.setImageResource(R.drawable.heart)
             }
         })
 
@@ -263,11 +294,7 @@ class MainActivity : AppCompatActivity() {
                     playerView.playButton.setImageResource(R.drawable.pause_icon)
                 }
                 PlayerState.ENDED -> {
-                    if (currentTrackID + 1 == maxTrackID + 1) {
-                        playerViewModel.setCurrentTrack(1)
-                    } else {
-                        playerViewModel.setCurrentTrack(currentTrackID + 1)
-                    }
+                    playerViewModel.nextTrack()
                 }
                 else -> {}
             }

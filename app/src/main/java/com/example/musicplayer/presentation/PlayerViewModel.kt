@@ -1,13 +1,12 @@
 package com.example.musicplayer.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.domain.usecases.TrackUseCase
 import com.example.musicplayer.utils.MusicPlayer
 import com.example.musicplayer.utils.PlayerState
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
@@ -21,12 +20,54 @@ class PlayerViewModel(
     val playerState: LiveData<PlayerState>
         get() = musicPlayer.playerState
 
-    fun setCurrentTrack(trackID: Int) {
+    var currentTrackID = 0
+
+    fun setCurrentTrack(track: Track) {
         viewModelScope.launch {
             musicPlayer.resetPlayer()
-            val track = trackUseCase.getTrackByID(trackID)
-            _currentTrackData.postValue(track)
-            musicPlayer.prepareSong(track.previewURL)
+            getAllTracks().asFlow().collect {
+                val trackIndex = it.indexOf(track)
+                _currentTrackData.postValue(it[trackIndex])
+                musicPlayer.prepareSong(it[trackIndex].previewURL)
+                currentTrackID = trackIndex
+                cancel()
+            }
+        }
+    }
+
+    fun nextTrack() {
+        viewModelScope.launch {
+            musicPlayer.resetPlayer()
+            getAllTracks().asFlow().collect {
+                if (currentTrackID + 1 >= it.size) {
+                    _currentTrackData.postValue(it[0])
+                    musicPlayer.prepareSong(it[0].previewURL)
+                    currentTrackID = 0
+                } else {
+                    _currentTrackData.postValue(it[currentTrackID + 1])
+                    musicPlayer.prepareSong(it[currentTrackID + 1].previewURL)
+                    currentTrackID += 1
+                }
+                cancel()
+            }
+        }
+    }
+
+    fun previousTrack() {
+        viewModelScope.launch {
+            musicPlayer.resetPlayer()
+            getAllTracks().asFlow().collect {
+                if (currentTrackID - 1 < 0) {
+                    _currentTrackData.postValue(it.last())
+                    musicPlayer.prepareSong(it.last().previewURL)
+                    currentTrackID = it.lastIndex
+                } else {
+                    _currentTrackData.postValue(it[currentTrackID - 1])
+                    musicPlayer.prepareSong(it[currentTrackID - 1].previewURL)
+                    currentTrackID -= 1
+                }
+                cancel()
+            }
         }
     }
 

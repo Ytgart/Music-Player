@@ -8,5 +8,5 @@ class UserDBEntityRepository(private val database: PlayerDatabase) : IUserDBEnti
         database.playerDBDao().insertUser(user.toUserDBEntity())
 
     override suspend fun getUser(login: String) =
-        database.playerDBDao().getUserByLogin(login).toUser()
+        database.playerDBDao().getUserByLogin(login)?.toUser()
 }

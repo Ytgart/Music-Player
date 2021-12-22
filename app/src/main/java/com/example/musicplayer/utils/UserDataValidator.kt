@@ -49,7 +49,7 @@ class UserDataValidator {
         ))
     }
 
-    fun checkLoginData(login: String, password: String, userDBEntityData: User): Boolean {
+    fun checkLoginData(login: String, password: String, userDBEntityData: User?): Boolean {
         return if (userDBEntityData != null) (login == userDBEntityData.login && password == userDBEntityData.password)
         else false
     }

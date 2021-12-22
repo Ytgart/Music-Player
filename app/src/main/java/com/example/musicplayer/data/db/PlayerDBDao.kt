@@ -16,11 +16,8 @@ interface PlayerDBDao {
     @Query("SELECT * FROM TrackDBEntity WHERE name LIKE '%' || :name || '%' OR performer LIKE '%' || :name || '%'")
     fun getSearchedSongs(name: String): Flow<List<TrackDBEntity>>
 
-    @Query("SELECT * FROM TrackDBEntity WHERE id = :id")
-    suspend fun getTrackByID(id: Int): TrackDBEntity
-
     @Query("SELECT * FROM UserDBEntity WHERE login == (:login)")
-    suspend fun getUserByLogin(login: String): UserDBEntity
+    suspend fun getUserByLogin(login: String): UserDBEntity?
 
     @Insert
     suspend fun insertUser(userDBEntityData: UserDBEntity)
