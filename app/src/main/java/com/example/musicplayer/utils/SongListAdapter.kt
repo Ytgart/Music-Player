@@ -10,12 +10,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import coil.annotation.ExperimentalCoilApi
 import coil.load
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.SongListItemBinding
 import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.presentation.MainActivity
 
+@ExperimentalCoilApi
 class SongListAdapter(fragment: Fragment) :
     RecyclerView.Adapter<SongListAdapter.SongItemViewHolder>() {
     private var songList = listOf<Track>()
@@ -47,6 +49,7 @@ class SongListAdapter(fragment: Fragment) :
 
         holder.coverImageView.load(songList[position].coverURL) {
             crossfade(true)
+            error(R.drawable.placeholder)
         }
 
         holder.coverImageView.rootView.setOnClickListener {

@@ -1,7 +1,10 @@
 package com.example.musicplayer.presentation.fragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
+import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.text.InputType
 import android.view.Gravity
@@ -18,12 +21,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentMainScreenBinding
+import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.presentation.LoginViewModel
 import com.example.musicplayer.presentation.PlayerViewModel
 import com.example.musicplayer.utils.DialogueWindowManager
 import com.example.musicplayer.utils.SongListAdapter
 import dev.chrisbanes.insetter.applyInsetter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 
 class MainScreenFragment : Fragment() {
     private lateinit var binding: FragmentMainScreenBinding
@@ -94,6 +99,11 @@ class MainScreenFragment : Fragment() {
 
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
+                R.id.openFile -> {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "audio/*"
+                    startActivityForResult(intent, 1)
+                }
                 R.id.getSongFromAPI -> {
                     showEnterTrackDataDialogue(requireContext())
                 }
@@ -152,5 +162,34 @@ class MainScreenFragment : Fragment() {
         }
         builder.create()
         builder.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                var filePath = data?.data?.path
+                filePath = filePath?.replace("/external_files", "/storage/emulated/0")
+
+                val r = MediaMetadataRetriever()
+                r.setDataSource(filePath)
+
+                if (r.embeddedPicture?.isEmpty() == false) {
+                    playerViewModel.addTrack(
+                        Track(
+                            0,
+                            "",
+                            filePath!!,
+                            r.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE).toString(),
+                            r.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+                                .toString(),
+                            r.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                                ?.toInt()!!,
+                            false
+                        )
+                    )
+                }
+            }
+        }
     }
 }

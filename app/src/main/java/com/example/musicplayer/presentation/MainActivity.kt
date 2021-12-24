@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
+@ExperimentalCoilApi
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
@@ -226,7 +227,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @ExperimentalCoilApi
     private fun setPlayer() {
         playerViewModel.currentTrackData.observe(this, {
             val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(it.duration.toLong()) % 60
@@ -234,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 
             trackIndicatorView.apply {
                 progressBar.progress = 0
-                playButton.visibility = View.GONE
+                playButton.visibility = View.INVISIBLE
                 indicatorPerformerText.text = it.performer
                 indicatorTrackText.text = it.name
             }
@@ -243,7 +243,10 @@ class MainActivity : AppCompatActivity() {
                 songName.text = it.name
                 performerText.text = it.performer
                 timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
+                playButton.visibility = View.INVISIBLE
+
                 albumCover.load(it.coverURL) {
+                    error(R.drawable.placeholder)
                     transition(object : Transition {
                         val crossfadeTransition = CrossfadeTransition(250)
 
@@ -276,6 +279,7 @@ class MainActivity : AppCompatActivity() {
             when (it) {
                 PlayerState.PREPARED -> {
                     trackIndicatorView.playButton.visibility = View.VISIBLE
+                    playerView.playButton.visibility = View.VISIBLE
                     trackIndicatorView.playButton.setImageResource(R.drawable.pause_icon_small)
 
                     playerView.playButton.setImageResource(R.drawable.pause_icon)

@@ -22,6 +22,8 @@ class TrackUseCase(
         }
     }
 
+    suspend fun addTrack(track: Track) = trackDBEntityRepository.addTrack(track)
+
     suspend fun deleteTrack(track: Track) = trackDBEntityRepository.deleteTrack(track)
 
     suspend fun updateTrack(track: Track) = trackDBEntityRepository.updateTrack(track)

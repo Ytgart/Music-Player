@@ -47,7 +47,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="14dp"
         android:clipToPadding="false"
-        android:paddingBottom="60dp"
+        android:paddingBottom="110dp"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"

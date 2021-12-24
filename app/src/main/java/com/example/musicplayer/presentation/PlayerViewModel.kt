@@ -77,6 +77,12 @@ class PlayerViewModel(
 
     fun searchForTracks(queryString: String) = trackUseCase.getTracksByFilter(queryString)
 
+    fun addTrack(track: Track) {
+        viewModelScope.launch {
+            trackUseCase.addTrack(track)
+        }
+    }
+
     fun addSongFromSpotifyAPI(queryString: String) {
         viewModelScope.launch {
             trackUseCase.addTrackFromAPI(queryString)
@@ -99,7 +105,19 @@ class PlayerViewModel(
         musicPlayer.seekTo(position)
     }
 
-    fun togglePause() = musicPlayer.togglePause()
+    fun togglePause() {
+        if (playerState.value == PlayerState.IDLE) {
+            viewModelScope.launch {
+                getAllTracks().asFlow().collect {
+                    _currentTrackData.postValue(it[0])
+                    musicPlayer.prepareSong(it[0].previewURL)
+                    cancel()
+                }
+            }
+        } else {
+            musicPlayer.togglePause()
+        }
+    }
 
     fun getPlayerPosition() = musicPlayer.getCurrentPosition()
 
