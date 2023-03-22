@@ -228,7 +228,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setPlayer() {
-        playerViewModel.currentTrackData.observe(this, {
+        playerViewModel.currentTrackData.observe(this) {
             val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(it.duration.toLong()) % 60
             val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(it.duration.toLong()) % 60
 
@@ -273,9 +273,9 @@ class MainActivity : AppCompatActivity() {
                 trackIndicatorView.likeButton.setImageResource(R.drawable.heart)
                 playerView.likeButton.setImageResource(R.drawable.heart)
             }
-        })
+        }
 
-        playerViewModel.playerState.observe(this, {
+        playerViewModel.playerState.observe(this) {
             when (it) {
                 PlayerState.PREPARED -> {
                     trackIndicatorView.playButton.visibility = View.VISIBLE
@@ -285,24 +285,28 @@ class MainActivity : AppCompatActivity() {
                     playerView.playButton.setImageResource(R.drawable.pause_icon)
                     setProgressBars()
                 }
+
                 PlayerState.PAUSED -> {
                     trackIndicatorView.playButton.visibility = View.VISIBLE
                     trackIndicatorView.playButton.setImageResource(R.drawable.play_icon_small)
 
                     playerView.playButton.setImageResource(R.drawable.play_icon)
                 }
+
                 PlayerState.PLAYING -> {
                     trackIndicatorView.playButton.visibility = View.VISIBLE
                     trackIndicatorView.playButton.setImageResource(R.drawable.pause_icon_small)
 
                     playerView.playButton.setImageResource(R.drawable.pause_icon)
                 }
+
                 PlayerState.ENDED -> {
                     playerViewModel.nextTrack()
                 }
+
                 else -> {}
             }
-        })
+        }
     }
 
     private fun setCoroutines() {
