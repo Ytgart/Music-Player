@@ -142,22 +142,22 @@ class MainScreenFragment : Fragment() {
         val layout = LinearLayout(context)
         layout.orientation = LinearLayout.VERTICAL
 
-        val input = EditText(context)
+        var input = EditText(context)
         input.hint = "Введите название трека"
         input.inputType = InputType.TYPE_CLASS_TEXT
         layout.addView(input)
 
-        val input2 = EditText(context)
-        input2.hint = "Введите исполнителя трека"
-        input2.inputType = InputType.TYPE_CLASS_TEXT
-        layout.addView(input2)
+        input = EditText(context)
+        input.hint = "Введите исполнителя трека"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        layout.addView(input)
 
         builder.setView(layout)
 
         builder.setTitle("Ввод данных")
         builder.setPositiveButton("Ок") { _, _ ->
             playerViewModel.addSongFromSpotifyAPI(
-                "track:\"${input.text}\"+artist:\"${input2.text}\""
+                "track:\"${input.text}\"+artist:\"${input.text}\""
             )
         }
         builder.create()
