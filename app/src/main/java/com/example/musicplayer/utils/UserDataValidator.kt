@@ -26,16 +26,13 @@ class UserDataValidator {
         }
     }
 
-    fun hasNoErrors(inputFields: Array<TextInputEditText>): Boolean {
-        var result = true
-        for (element in inputFields) {
-            result = result && (element.parent.parent as TextInputLayout).error == null
-        }
-        return result
+    fun hasNoErrors(inputFields: List<TextInputLayout>): Boolean {
+        return inputFields.all { it.error == null }
     }
 
-    private fun validateString(data: String): Boolean {
-        return (!data.matches(".*\\s.*".toRegex()) && data.isNotEmpty())
+    fun validateString(data: String): Boolean {
+        val containsSpaces = data.matches(".*\\s.*".toRegex())
+        return !containsSpaces && data.isNotEmpty()
     }
 
     private fun validateEmail(data: String): Boolean {

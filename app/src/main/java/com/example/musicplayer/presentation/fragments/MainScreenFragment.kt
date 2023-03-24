@@ -142,14 +142,14 @@ class MainScreenFragment : Fragment() {
         val layout = LinearLayout(context)
         layout.orientation = LinearLayout.VERTICAL
 
-        var input = EditText(context)
+        val input = EditText(context)
         input.hint = "Введите название трека"
         input.inputType = InputType.TYPE_CLASS_TEXT
         layout.addView(input)
 
-        input = EditText(context)
-        input.hint = "Введите исполнителя трека"
-        input.inputType = InputType.TYPE_CLASS_TEXT
+        val input2 = EditText(context)
+        input2.hint = "Введите исполнителя трека"
+        input2.inputType = InputType.TYPE_CLASS_TEXT
         layout.addView(input)
 
         builder.setView(layout)

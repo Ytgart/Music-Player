@@ -22,7 +22,9 @@ import coil.transition.Transition
 import coil.transition.TransitionTarget
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.ActivityMainBinding
+import com.example.musicplayer.domain.entities.Track
 import com.example.musicplayer.utils.PlayerState
+import com.example.musicplayer.utils.TimeConverter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -229,42 +231,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPlayer() {
         playerViewModel.currentTrackData.observe(this) {
-            val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(it.duration.toLong()) % 60
-            val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(it.duration.toLong()) % 60
-
-            trackIndicatorView.apply {
-                progressBar.progress = 0
-                playButton.visibility = View.INVISIBLE
-                indicatorPerformerText.text = it.performer
-                indicatorTrackText.text = it.name
-            }
-
-            playerView.apply {
-                songName.text = it.name
-                performerText.text = it.performer
-                timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
-                playButton.visibility = View.INVISIBLE
-
-                albumCover.load(it.coverURL) {
-                    error(R.drawable.placeholder)
-                    transition(object : Transition {
-                        val crossfadeTransition = CrossfadeTransition(250)
-
-                        override suspend fun transition(
-                            target: TransitionTarget,
-                            result: ImageResult
-                        ) {
-                            crossfadeTransition.transition(
-                                target,
-                                (result as? SuccessResult)?.takeIf { it ->
-                                    it.metadata.dataSource == DataSource.MEMORY_CACHE
-                                }?.run {
-                                    copy(metadata = metadata.copy(dataSource = DataSource.MEMORY))
-                                } ?: result)
-                        }
-                    })
-                }
-            }
+            configureTrackIndicator(it)
+            configurePlayerView(it)
+            subscribeToPlayerState()
 
             if (it.isFavorite) {
                 trackIndicatorView.likeButton.setImageResource(R.drawable.heart_pressed)
@@ -274,7 +243,9 @@ class MainActivity : AppCompatActivity() {
                 playerView.likeButton.setImageResource(R.drawable.heart)
             }
         }
+    }
 
+    private fun subscribeToPlayerState() {
         playerViewModel.playerState.observe(this) {
             when (it) {
                 PlayerState.PREPARED -> {
@@ -309,6 +280,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun configurePlayerView(it: Track) {
+        playerView.apply {
+            val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(it.duration.toLong()) % 60
+            val durationSeconds = TimeUnit.MILLISECONDS.toSeconds(it.duration.toLong()) % 60
+
+            songName.text = it.name
+            performerText.text = it.performer
+            timeFull.text = String.format("%d:%02d", durationMinutes, durationSeconds)
+            playButton.visibility = View.INVISIBLE
+
+            albumCover.load(it.coverURL) {
+                error(R.drawable.placeholder)
+                transition(object : Transition {
+                    val crossfadeTransition = CrossfadeTransition(250)
+
+                    override suspend fun transition(
+                        target: TransitionTarget,
+                        result: ImageResult
+                    ) {
+                        crossfadeTransition.transition(
+                            target,
+                            (result as? SuccessResult)?.takeIf { it ->
+                                it.metadata.dataSource == DataSource.MEMORY_CACHE
+                            }?.run {
+                                copy(metadata = metadata.copy(dataSource = DataSource.MEMORY))
+                            } ?: result)
+                    }
+                })
+            }
+        }
+    }
+
+    private fun configureTrackIndicator(it: Track) {
+        trackIndicatorView.apply {
+            progressBar.progress = 0
+            playButton.visibility = View.INVISIBLE
+            indicatorPerformerText.text = it.performer
+            indicatorTrackText.text = it.name
+        }
+    }
+
     private fun setCoroutines() {
         lifecycleScope.launch {
             while (isActive) {
@@ -322,17 +334,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        launchTrackTimeCoroutine()
+    }
+
+    private fun launchTrackTimeCoroutine() {
         lifecycleScope.launch {
             while (isActive) {
                 if (playerViewModel.isTrackPlaying()) {
-                    val currentPosition = playerViewModel.getPlayerPosition()
-                    val durationMinutes =
-                        TimeUnit.MILLISECONDS.toMinutes(currentPosition.toLong()) % 60
-                    val durationSeconds =
-                        TimeUnit.MILLISECONDS.toSeconds(currentPosition.toLong()) % 60
-
-                    playerView.timeCurrent.text =
-                        String.format("%d:%02d", durationMinutes, durationSeconds)
+                    playerView.timeCurrent.text = TimeConverter(
+                        playerViewModel.getPlayerPosition()
+                    ).toDigitalClockFormatString()
                 }
                 delay(1000)
             }

@@ -6,9 +6,8 @@ import com.example.musicplayer.data.entities.TrackDBEntity
 import com.example.musicplayer.domain.entities.Track
 
 fun List<TrackDBEntity>.toTrackList(): LiveData<List<Track>> {
-    val newList: MutableList<Track> = mutableListOf()
-    this.forEach {
-        newList.add(
+    return MutableLiveData(
+        this.map {
             Track(
                 it.id,
                 it.coverURL,
@@ -18,7 +17,6 @@ fun List<TrackDBEntity>.toTrackList(): LiveData<List<Track>> {
                 it.duration,
                 it.isFavorite
             )
-        )
-    }
-    return MutableLiveData<List<Track>>(newList)
+        }
+    )
 }
